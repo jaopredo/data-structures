@@ -33,7 +33,7 @@ c++ -c <arquivo>.s
 O resultado é o arquivo com extensão `.o`
 
 ### Linker
-Etapa em que o compilador transforma o arquivo binário em um executável. Para transformar o arquivo object em um executável, execute:
+Etapa em que o compilador transforma o arquivo binário em um executável, linkando com as referências externas, como bibliotecas, arquivos e caminhos. Para transformar o arquivo object em um executável, execute:
 ```bash
 c++ <arquivo>.o -o app
 ```
