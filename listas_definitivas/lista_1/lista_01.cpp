@@ -6,18 +6,22 @@ using namespace PatientArrayTAD;
 using namespace std;
 
 int main() {
+    // Inicializando meu array vazio
     PatientArray* patient_arr = initializePatientArray();
 
-    strcpy(patient_arr->patients->name, "Jotinha");
-    patient_arr->size += 1;
-    strcpy(patient_arr->patients->arrival_time, "18:30");
-    patient_arr->patients->severity = 10;
-    
-    Patient* next_patient = patient_arr->patients + 1;
-    strcpy(next_patient->name, "Samuel");
-    patient_arr->size += 1;
-    strcpy(next_patient->arrival_time, "20:30");
-    next_patient->severity = 5;
+    // Criando dois pacientes
+    Patient jota;
+    strcpy(jota.name, "Jotinha");
+    strcpy(jota.arrival_time, "18:30");
+    jota.severity = 10;
+
+    Patient samuel;
+    strcpy(samuel.name, "Samuel");
+    strcpy(samuel.arrival_time, "20:12");
+    samuel.severity = 3;
+
+    insertPatient(patient_arr, jota);
+    insertPatient(patient_arr, samuel);
 
     printPatients(patient_arr);
 

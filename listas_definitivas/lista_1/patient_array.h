@@ -15,6 +15,7 @@ namespace PatientArrayTAD {
         int capacity;      // Capacidade total do array
     };
 
+    // Declaração das minhas funções
     PatientArray* initializePatientArray();
     void printPatients(PatientArray *pa);
     void insertPatient(PatientArray *pa, Patient p);
