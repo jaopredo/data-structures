@@ -34,8 +34,7 @@ int main() {
     insertPatient(patient_arr, samuel);
     insertPatient(patient_arr, thalis);
     insertPatient(patient_arr, jota);
-    insertPatient(patient_arr, jean);
-    
+    insertPatient(patient_arr, jean);    
     // Como eu adicionei 4 pacientes, minha capacidade vai subir para 8, veja no print a seguir
 
     // Mostrando os pacientes
@@ -44,13 +43,20 @@ int main() {
     // Encontrando o próximo paciente
     int next_patient = findNextPatient(patient_arr);
 
-    cout << "\n O próximo paciente é o " << patient_arr->patients[next_patient].name << endl;
+    cout << endl << "O próximo paciente é o " << patient_arr->patients[next_patient].name << endl;
 
     // Removendo os próximos 2 pacientes
+    cout << endl << "Deletando o próximo paciente..." << endl;
+
     popNextPatient(patient_arr);
+    printPatients(patient_arr);
+
+    cout << endl << "Deletando o próximo paciente..." << endl;
     popNextPatient(patient_arr);
+    printPatients(patient_arr);
 
     // Removendo um paciente
+    cout << endl << "Deletando o segundo paciente..." << endl;
     removePatient(patient_arr, 1);  // Removendo o Jotinha
 
     // Mostrando o novo array
