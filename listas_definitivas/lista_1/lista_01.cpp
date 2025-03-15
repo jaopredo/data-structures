@@ -20,14 +20,14 @@ int main() {
     strcpy(samuel.arrival_time, "20:12");
     samuel.severity = 3;
 
-    Patient vermeio;
-    strcpy(vermeio.name, "Thalis");
-    strcpy(vermeio.arrival_time, "21:24");
-    vermeio.severity = 3;
+    Patient thalis;
+    strcpy(thalis.name, "Thalis");
+    strcpy(thalis.arrival_time, "21:24");
+    thalis.severity = 3;
 
     // Inserindo pacientes
     insertPatient(patient_arr, samuel);
-    insertPatient(patient_arr, vermeio);
+    insertPatient(patient_arr, thalis);
     insertPatient(patient_arr, jota);
 
     // Mostrando os pacientes
@@ -37,6 +37,12 @@ int main() {
     int next_patient = findNextPatient(patient_arr);
 
     cout << "O próximo paciente é o " << patient_arr->patients[next_patient].name << endl;
+
+    // Removendo um paciente
+    removePatient(patient_arr, 1);  // Removendo o Thalis
+
+    // Mostrando o novo array
+    printPatients(patient_arr);
 
     // Deletando tudo para não haver memory leaks
     delete[] patient_arr->patients;

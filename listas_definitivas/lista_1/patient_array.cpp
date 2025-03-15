@@ -29,6 +29,7 @@ namespace PatientArrayTAD {
                                         // Para colocar no FOR (apenas por organização mesmo)
         Patient* first_patient_pointer = pa->patients;
 
+        cout << endl;
         cout << "Capacity: " << pa->capacity << endl;
         cout << "Current size: " << patients_amount << endl;
         cout << endl;
@@ -97,5 +98,27 @@ namespace PatientArrayTAD {
             }
         }
         return next_patient;
+    };
+
+    /**
+     * @brief Função para remover paciente do PatientArray
+     * 
+     * @param pa PatientArray que será manipulado
+     * @param index Index do paciente que será removido
+     */
+    void removePatient(PatientArray *pa, int index) {
+        Patient* new_pacients_arr = new Patient[pa->capacity];  // Crio o novo array de pacientes
+
+        for (int i = 0; i < pa->size-1; i++) {  // Faço um for indo de 0 até n-2 (n = quantidade de pacientes)
+            if (i >= index) {  // Se i for maior que o index passado
+                new_pacients_arr[i] = pa->patients[i+1];  // Começo a assinalar o próximo item do array
+            } else {  // Caso contrário
+                new_pacients_arr[i] = pa->patients[i];  // Eu continuo assinalando os mesmos índices
+            }
+        }
+
+        delete[] pa->patients;  // Libero a memória do array antigo
+        pa->size -= 1;  // Diminuo a quantidade de pacientes presente
+        pa->patients = new_pacients_arr;  // Digo que os novos pacientes são a nova variável
     };
 }
