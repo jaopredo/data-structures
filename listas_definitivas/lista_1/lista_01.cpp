@@ -25,10 +25,16 @@ int main() {
     strcpy(thalis.arrival_time, "21:24");
     thalis.severity = 3;
 
+    Patient jean;
+    strcpy(jean.name, "Jean");
+    strcpy(jean.arrival_time, "22:10");
+    jean.severity = 10;
+
     // Inserindo pacientes
     insertPatient(patient_arr, samuel);
     insertPatient(patient_arr, thalis);
     insertPatient(patient_arr, jota);
+    insertPatient(patient_arr, jean);
 
     // Mostrando os pacientes
     printPatients(patient_arr);
@@ -37,6 +43,10 @@ int main() {
     int next_patient = findNextPatient(patient_arr);
 
     cout << "O próximo paciente é o " << patient_arr->patients[next_patient].name << endl;
+
+    // Removendo o próximo paciente
+    popNextPatient(patient_arr);
+    popNextPatient(patient_arr);
 
     // Removendo um paciente
     removePatient(patient_arr, 1);  // Removendo o Thalis

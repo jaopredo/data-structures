@@ -107,9 +107,14 @@ namespace PatientArrayTAD {
      * @param index Index do paciente que será removido
      */
     void removePatient(PatientArray *pa, int index) {
+        if ((pa->size-1 < pa->capacity/4) && pa->capacity >= 4) {
+            pa->capacity /= 2;
+        }
+
         Patient* new_pacients_arr = new Patient[pa->capacity];  // Crio o novo array de pacientes
 
-        for (int i = 0; i < pa->size-1; i++) {  // Faço um for indo de 0 até n-2 (n = quantidade de pacientes)
+
+        for (int i = 0; i <= pa->size-1; i++) {  // Faço um for indo de 0 até n-2 (n = quantidade de pacientes)
             if (i >= index) {  // Se i for maior que o index passado
                 new_pacients_arr[i] = pa->patients[i+1];  // Começo a assinalar o próximo item do array
             } else {  // Caso contrário
@@ -120,5 +125,20 @@ namespace PatientArrayTAD {
         delete[] pa->patients;  // Libero a memória do array antigo
         pa->size -= 1;  // Diminuo a quantidade de pacientes presente
         pa->patients = new_pacients_arr;  // Digo que os novos pacientes são a nova variável
+    };
+
+    /**
+     * @brief Função utilizada para remover o próximo paciente
+     * 
+     * @param pa PatientArray que será manipulado
+     * @return (Patient) Retorna o paciente que foi removido
+     */
+    Patient popNextPatient(PatientArray *pa) {
+        int next_patient_index = findNextPatient(pa);  // Pego o id do próximo paciente
+        Patient patient_to_return = pa->patients[next_patient_index];  // Pegando paciente que vou retornar
+
+        removePatient(pa, next_patient_index);  // Removendo o paciente
+
+        return patient_to_return;
     };
 }
