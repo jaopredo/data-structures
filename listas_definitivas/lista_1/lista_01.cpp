@@ -20,11 +20,20 @@ int main() {
     strcpy(samuel.arrival_time, "20:12");
     samuel.severity = 3;
 
+    Patient vermeio;
+    strcpy(vermeio.name, "Thalis");
+    strcpy(vermeio.arrival_time, "21:24");
+    vermeio.severity = 3;
+
+
     insertPatient(patient_arr, jota);
     insertPatient(patient_arr, samuel);
+    insertPatient(patient_arr, vermeio);
 
     printPatients(patient_arr);
 
+    // Deletando tudo para não haver memory leaks
+    delete[] patient_arr->patients;
     delete patient_arr;
 
     return 0;

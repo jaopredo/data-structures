@@ -38,13 +38,30 @@ namespace PatientArrayTAD {
         }
     }
 
-
+    /**
+     * @brief Função para inserir um paciente no Array e aumentar sua capacidade dependendo da situação
+     * 
+     * @param pa Array de pacientes
+     * @param p Paciente a ser adicionado
+     */
     void insertPatient(PatientArray *pa, Patient p) {
+        pa->patients[pa->size] = p;  // Inserindo o novo paciente na última posição
+        pa->size += 1;  // Aumento a quantidade total de pessoas
+
         if (pa->size+1 >= pa->capacity*3/4) {
-        } else {
-            cout << p.name << endl;
-            pa->patients[pa->size] = p;
-            pa->size += 1;  // Aumento a quantidade total de pessoas
+            pa->capacity *= 2;  // Dobrando a capacidade máxima do array
+            Patient* new_patient_array = new Patient[pa->capacity];  // Criando um novo array com a capacidade dobrada
+
+            for (int i = 0; i < pa->size; i++) {
+                /*
+                Percorrendo o array para adicionar os pacientes antigos
+                */
+                new_patient_array[i] = pa->patients[i];
+            }
+
+            delete[] pa->patients;
+            
+            pa->patients = new_patient_array;
         }
     }
 }
