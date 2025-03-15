@@ -1,5 +1,6 @@
 #include "patient_array.h"
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
@@ -60,8 +61,41 @@ namespace PatientArrayTAD {
             }
 
             delete[] pa->patients;
-            
+
             pa->patients = new_patient_array;
         }
     }
+
+    /**
+     * @brief Compara se o paciente 1 é mais urgente que o paciente 2
+     * 
+     * @param p1 Paciente 1
+     * @param p2 Paciente 2
+     * @return (int) 1 se p1 for mais urgente, 0 se p1 e p2 tem o mesmo nível, -1 se p2 for mais urgente
+     */
+    int comparePatients(Patient p1, Patient p2) {
+        if (p1.severity > p2.severity) {
+            return 1;
+        } else if (p2.severity > p1.severity) {
+            return -1;
+        } else {  // Desempatando pelo horário de chegada
+            return strcmp(p1.arrival_time, p2.arrival_time)*(-1);
+        }
+    }
+
+    /**
+     * @brief Retorna o índice do próximo paciente a ser atendido
+     * 
+     * @param pa O array de pacientes
+     * @return (int) Retorna o índice do paciente mais urgente
+     */
+    int findNextPatient(PatientArray *pa) {
+        int next_patient = 0;  // Defino que o primeiro paciente é o próximo
+        for (int i = 1; i < pa->size; i++) {  // Faço um loop passando por cada paciente
+            if (comparePatients(pa->patients[next_patient], pa->patients[i]) == -1) {
+                next_patient = i;
+            }
+        }
+        return next_patient;
+    };
 }
