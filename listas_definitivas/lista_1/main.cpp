@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-#include "patient_array.h"
+#include "PatientArray.h"
 
 using namespace PatientArrayTAD;
 using namespace std;
@@ -35,6 +35,8 @@ int main() {
     insertPatient(patient_arr, thalis);
     insertPatient(patient_arr, jota);
     insertPatient(patient_arr, jean);
+    
+    // Como eu adicionei 4 pacientes, minha capacidade vai subir para 8, veja no print a seguir
 
     // Mostrando os pacientes
     printPatients(patient_arr);
@@ -42,14 +44,14 @@ int main() {
     // Encontrando o próximo paciente
     int next_patient = findNextPatient(patient_arr);
 
-    cout << "O próximo paciente é o " << patient_arr->patients[next_patient].name << endl;
+    cout << "\n O próximo paciente é o " << patient_arr->patients[next_patient].name << endl;
 
-    // Removendo o próximo paciente
+    // Removendo os próximos 2 pacientes
     popNextPatient(patient_arr);
     popNextPatient(patient_arr);
 
     // Removendo um paciente
-    removePatient(patient_arr, 1);  // Removendo o Thalis
+    removePatient(patient_arr, 1);  // Removendo o Jotinha
 
     // Mostrando o novo array
     printPatients(patient_arr);

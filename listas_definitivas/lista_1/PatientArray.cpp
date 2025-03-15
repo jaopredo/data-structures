@@ -1,4 +1,4 @@
-#include "patient_array.h"
+#include "PatientArray.h"
 #include <iostream>
 #include <cstring>
 

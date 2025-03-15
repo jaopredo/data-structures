@@ -1,3 +1,3 @@
-g++ -c /mnt/Github/ED/listas_definitivas/lista_1/patient_array.cpp -o /mnt/Github/ED/listas_definitivas/lista_1/patient_array.o
-g++ -c /mnt/Github/ED/listas_definitivas/lista_1/lista_01.cpp -o /mnt/Github/ED/listas_definitivas/lista_1/lista_01.o
-g++ -fsanitize=address /mnt/Github/ED/listas_definitivas/lista_1/patient_array.o /mnt/Github/ED/listas_definitivas/lista_1/lista_01.cpp -o lista_01
+g++ -c /mnt/Github/ED/listas_definitivas/lista_1/PatientArray.cpp -o /mnt/Github/ED/listas_definitivas/lista_1/PatientArray.o
+g++ -c /mnt/Github/ED/listas_definitivas/lista_1/main.cpp -o /mnt/Github/ED/listas_definitivas/lista_1/main.o
+g++ -fsanitize=address /mnt/Github/ED/listas_definitivas/lista_1/PatientArray.o /mnt/Github/ED/listas_definitivas/lista_1/main.cpp -o main
