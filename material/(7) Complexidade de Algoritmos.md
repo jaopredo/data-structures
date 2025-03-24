@@ -32,3 +32,29 @@ Com termos menores, o segundo algoritmo tem um tempo de execução maior, porém
 
 * Complexidade *T<sub>1</sub>* = O(N)
 * Complexidade *T<sub>2</sub>* = O(N<sup>2</sup>)
+
+Logo, sempre consideramos o caso de N &rarr; $ \infty $;
+
+### Definição
+Sejam *g* e *f* duas funções de domínio $ X $. Dizemos que $ f(n) = O(g(n)) $ se existir uma constante $ c \in \reals_{+} $ e um valor $ n_{0} \in X $ tal que $ \forall n \ge n_{0} $ temos $ |f(n)| \le c|g(n)| $
+
+![Análise pior caso](images/worst_case_analysis.png)
+
+#### Exemplos
+* $ 3N + 2 = O(N) $, pois $ 3N + 2 \le 4N $, $ \forall N \ge 2 $
+* Generalizando: Dado um algoritmo de complexidade $ \sum_{k=0}^{m}c_{k}M^k = c_{m}M^m + c_{m-1}M^{m-1} + ... + c_0 = O(N^m)$, 
+
+## Algumas das principais complexidades
+| **Notação**       | **Descrição**          | **Descrição**                                                                                       | **Exemplos de Algoritmos**                                                     |
+|-------------------|------------------------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **$O(1)$**        | **Constante**          | O tempo de execução não depende do tamanho da entrada.                                              | - Acesso a um elemento em um vetor ou lista: `arr[i]`.                                                         |
+| **$O(log(n))$**   | **Logarítmica**        | O tempo de execução cresce de forma logarítmica em relação ao tamanho da entrada.                   | - Busca binária em um vetor ordenado.                                                                         |
+| **$O(n)$**        | **Linear**             | O tempo de execução cresce linearmente com o tamanho da entrada.                                    | - Busca sequencial em um vetor.                                                                               |
+| **$O(n log(n))$** | **Linear-Logarítmica** | O tempo de execução cresce mais rápido que O(n), mas menos que O(n^2).                              | - Algoritmos de ordenação eficientes como Merge Sort, Quick Sort.                                       |
+| **$O(n^2)$**      | **Quadrática**         | O tempo de execução cresce quadraticamente com o tamanho da entrada.                                | - Ordenação por bolha (Bubble Sort).                                                                    |
+| **$O(2^n)$**      | **Exponencial**        | O tempo de execução cresce muito rapidamente com o aumento do tamanho da entrada.                   | - Algoritmo de força bruta para resolver o problema da mochila.                                         |
+| **$O(n!)$**       | **Fatorial**           | O tempo de execução cresce ainda mais rapidamente que O(2^n), com uma taxa de crescimento fatorial. | - Algoritmo de força bruta para resolver o problema do caixeiro viajante (Travelling Salesman Problem). |
+
+Veja a comparação na imagem abaixo
+
+![Comparação das complexidades](images/complexity_comparison.png)
