@@ -127,3 +127,55 @@ int peek(const Queue *q, int *value) {
     return 1;
 }
 ```
+
+### Implementando com listas circulares
+Um problema das listas, é que elas podem gerar memória não utilizada desnecessariamente, para contornar isso, utilizamos de listas circulares:
+
+![Lista Circular](images/circular_queue.png)
+
+Implementação dos métodos:
+```cpp
+typedef struct {
+    int *data;
+    int maxSize;
+    int size;
+    int head;
+    int tail;
+} CircularQueue;
+
+CircularQueue * initialization(int maxSize) {
+    CircularQueue * q = new CircularQueue();
+    q->data = new int[maxSize];
+    q->head = 0;
+    q->tail = -1;
+    q->size = 0;
+}
+
+int enqueue(CircularQueue *q, int value) {
+    if (q->size == q->maxSize) {
+        return 0; // Fila cheia
+    }
+    q->tail = (q->tail + 1) % q->maxSize;
+    q->data[q->tail] = value;
+    q->size++;
+    return 1;
+}
+
+int dequeue(CircularQueue *q, int *value) {
+    if (q->size == 0) {
+        return 0; // Fila vazia
+    }
+    *value = q->data[q->head];
+    q->head = (q->head + 1) % q->maxSize;
+    q->size--;
+    return 1;
+}
+
+int peek(CircularQueue *q, int *value) {
+    if (q->size == 0) {
+        return 0; // Fila vazia
+    }
+    *value = q->data[q->head];
+    return 1;
+}
+```
