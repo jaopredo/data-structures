@@ -74,9 +74,35 @@ Entrada:
 Saída esperada:
 `R = [D, C, B, A]`
 
+```cpp
+Queue* invert_queue(Queue* q1) {
+    Queue* q2 = initialization_queue(q1->size);
+    // Fila q1 invertida
+
+    int value;
+    Stack* s = initialization_stack(q1->size);
+
+    // Adicionando item por item na pilha
+    for (int i = q1->size-1; i >= 0; i--) {
+        dequeue_queue(q1, &value);
+        push_stack(s, value);
+    }
+
+    for (int i = q1->size-1; i >= 0; i--) {
+        pop_stack(s, &value);
+        enqueue_queue(q2, value);
+    }
+
+    return q2;
+}
+```
+
 ## Questão 5
 
 Explique como implementar duas pilhas em um único array de maneira eficiente.
+
+**Resulução**\
+Podemos criar duas variáveis indicando os índices que ambas as pilhas estão apontado, óbvio que depende do tamanho da pilha que eu quero, mas, para evitar muitos desvios, vamos considerar que ambas tem o mesmo tamanho e esse tamanho é o tamanho do array, basta que uma aponte para o primeiro elemento do array e a outra pro último, ou seja, uma é a inversa da outra
 
 ## Questão 6
 
