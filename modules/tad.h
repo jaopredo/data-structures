@@ -3,11 +3,11 @@
 
 namespace TAD {
     // Definindo Pilhas
-    typedef struct {
+    struct Stack {
         int * data;
         int maxSize;
         int top;
-    } Stack;
+    };
 
     Stack* initialization_stack(int maxSize);
     void destroy_stack(Stack* s);
@@ -16,11 +16,11 @@ namespace TAD {
     int peek_stack(const Stack *s, int *value);
 
     // Definindo Filas normais
-    typedef struct {
+    struct Queue {
         int* data;
         int maxSize;
         int size;
-    } Queue;
+    };
 
     Queue* initialization_queue(int maxSize);
     void destroy_queue(Queue* q);
@@ -29,13 +29,13 @@ namespace TAD {
     int peek_queue(Queue *q, int *value);
 
     // Definindo as Filas Circulares
-    typedef struct {
+    struct CircularQueue {
         int *data;
         int maxSize;
         int size;
         int head;
         int tail;
-    } CircularQueue;
+    };
 
     CircularQueue* initialization_circular_queue(int maxSize);
     void destroy_circular_queue(CircularQueue* q);

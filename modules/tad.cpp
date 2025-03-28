@@ -1,12 +1,6 @@
 #include "tad.h"
 
 namespace TAD {
-    struct Stack {
-        int * data;
-        int maxSize;
-        int top;
-    };
-
     Stack* initialization_stack(int maxSize) {
         Stack * s = new Stack();
         s->data = new int[maxSize];
@@ -47,13 +41,6 @@ namespace TAD {
     }
 
     // ========================================================================================
-
-    struct Queue {
-        int* data;
-        int maxSize;
-        int size;
-    };
-
     Queue * initialization_queue(int maxSize) {
         Queue * q = new Queue();
         q->data = new int[maxSize];
@@ -98,21 +85,13 @@ namespace TAD {
     }
 
     // ========================================================================================
-
-    struct CircularQueue {
-        int *data;
-        int maxSize;
-        int size;
-        int head;
-        int tail;
-    };
-
     CircularQueue* initialization_circular_queue(int maxSize) {
         CircularQueue * q = new CircularQueue();
         q->data = new int[maxSize];
         q->head = 0;
         q->tail = -1;
         q->size = 0;
+        return q;
     }
 
     void destroy_circular_queue(CircularQueue* q) {
