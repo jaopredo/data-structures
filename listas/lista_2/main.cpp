@@ -47,6 +47,11 @@ int main() {
     enqueue(waiting_queue, cliente_6);
     enqueue(waiting_queue, cliente_7);
     enqueue(waiting_queue, cliente_8);
+
+    // cout << waiting_queue->head_eldery->order << endl;
+    // cout << waiting_queue->head_general->order << endl;
+    // cout << waiting_queue->head_eldery->next->order << endl;
+    // cout << waiting_queue->head_eldery->next->next->order << endl;
     
     return 0;
 }
