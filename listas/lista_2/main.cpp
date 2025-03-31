@@ -20,7 +20,7 @@ int main() {
     cliente_3.priority = 1;
 
     Client cliente_4 = Client();
-    cliente_4.name = "João Pedro";
+    cliente_4.name = "Joao Pedro";
     cliente_4.priority = 0;
 
     Client cliente_5 = Client();
@@ -28,7 +28,7 @@ int main() {
     cliente_5.priority = 0;
 
     Client cliente_6 = Client();
-    cliente_6.name = "Aléc";
+    cliente_6.name = "Alex";
     cliente_6.priority = 0;
 
     Client cliente_7 = Client();
@@ -48,13 +48,33 @@ int main() {
     enqueue(waiting_queue, cliente_7);
     enqueue(waiting_queue, cliente_8);
 
+    // Deletando um Geral
+    char nomeClienteParaDeletar[11] = "Joao Pedro";
+    removeClient(waiting_queue, nomeClienteParaDeletar);
+
+    // Deletando um Preferencial
+
+    // Vendo o próximo cliente
     Client next_client;
 
-    peek(waiting_queue, &next_client);
+    // Atendendo as pessoas
+    Client dequeued_client;
 
-    // cout << next_client.name << endl;
+    // Mostrando tanto o pŕoximo paciente quando o cara atendido
+    int size = waiting_queue->size;
+    for (int i = 0; i < size; i++) {
+        dequeue(waiting_queue, &dequeued_client);
 
-    cout << next_client.name << endl;
+        cout << "=========================" << endl;
+        cout << "Paciente atendido: " << dequeued_client.name << endl;
+        cout << "Tamanho atual da fila: " << waiting_queue->size << endl;
+        cout << "Eu tenho " << waiting_queue->elderlyCount << " idosos" << endl;
+        cout << "Eu tenho " << waiting_queue->generalCount << " gerais" << endl;
+
+        peek(waiting_queue, &next_client);
+
+        cout << "Próximo paciente da fila: " << next_client.name << endl;
+    }
     
     return 0;
 }

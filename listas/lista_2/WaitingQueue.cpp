@@ -6,9 +6,9 @@ using namespace std;
 
 namespace WaitingQueueTAD {
     /**
-     * @brief Create a Queue object
+     * @brief Cria um objeto de Fila
      * 
-     * @return WaitingQueue* A pointer to the queue created
+     * @return WaitingQueue* Ponteiro para a fila criada
      */
     WaitingQueue* createQueue() {
         WaitingQueue* w = new WaitingQueue();
@@ -28,10 +28,10 @@ namespace WaitingQueueTAD {
     };
 
     /**
-     * @brief This function is responsible for enqueuing a new client
+     * @brief Essa função adiciona um paciente novo na fila
      * 
-     * @param queue The queue to be altered
-     * @param client The client that will be enqueued
+     * @param queue A fila que será manipulada
+     * @param client O cliente que vai ser adicionado
      */
     void enqueue(WaitingQueue* queue, Client client) {
         if (queue == nullptr) {
@@ -41,6 +41,8 @@ namespace WaitingQueueTAD {
         queue->size += 1;  // Aumento o tamanho total da minha fila
 
         QueueNode* recent_node = new QueueNode;  // Crio o nó mais recente
+        recent_node->next = nullptr;
+        recent_node->previous = nullptr;
         recent_node->client = client;  // Associo ao cliente passado
         recent_node->order = queue->size;  // Indico qual é a posição geral dele na fila
 
@@ -79,57 +81,134 @@ namespace WaitingQueueTAD {
     };
 
     /**
-     * @brief Returns the next client 
+     * @brief Returo o próximo cliente
      * 
-     * @param queue 
-     * @param returnClient 
-     * @return int 
+     * @param queue Fila que será manipulada
+     * @param returnClient Ponteiro para uma variável do tipo Client
+     * @return int Se a operação foi bem-sucedida ou não
      */
     int peek(const WaitingQueue* queue, Client* returnClient) {
-        if (queue->size == 0) {
+        if (queue == nullptr || queue->size == 0) {
             // Se não houver ninguém
             returnClient = nullptr;
             return 0;
         }
 
-        // Declarando variáveis úteis
-        int infinity = std::numeric_limits<int>::max();
-        QueueNode* head_eldery = queue->head_eldery;
-        QueueNode* head_general = queue->head_general;
-
-        // Farei isso para evitar muitos ifs la na frente e algumas
-        // Comparações já bastarem
-        if (head_eldery == nullptr) {
-            head_eldery = new QueueNode;
-            head_eldery->order = infinity;
-        }
-        if (head_general == nullptr) {
-            head_general = new QueueNode;
-            head_general->order = infinity;
-        }
+        cout << queue->priority_gone << endl;
+        cout << queue->elderlyCount << endl;
 
         if (queue->priority_gone < 2 && queue->elderlyCount > 0) {
             // Se não foi nenhum idoso e tem idosos na fila
-            *returnClient = head_eldery->client;
+            *returnClient = queue->head_eldery->client;
             // Retorno o primeiro na fila de idosos
         } else {
-            if (head_eldery->order > head_general->order) {
-                *returnClient = queue->head_general->client;
-            } else {
+
+            if (queue->generalCount <= 0) {
                 *returnClient = queue->head_eldery->client;
+                return 1;
             }
+
+            *returnClient = queue->head_general->client;
         }
 
         return 1;
     };
 
-    // int dequeue(WaitingQueue* queue, Client* returnClient) {
+    /**
+     * @brief Re
+     * 
+     * @param queue 
+     * @param returnClient 
+     * @return int 
+     */
+    int dequeue(WaitingQueue* queue, Client* returnClient) {
+        if (queue == nullptr || queue->size == 0) {  // Se a fila estiver vazia
+            returnClient = nullptr;
+            return 0;
+        }
 
-    // };
+        if (queue->priority_gone < 2 && queue->elderlyCount > 0) {
+            // Se não foi nenhum idoso e tem idosos na fila
+            *returnClient = queue->head_eldery->client;
+            queue->head_eldery = queue->head_eldery->next;
+            queue->elderlyCount -= 1;
+            queue->priority_gone += 1;
+            // Retorno o primeiro na fila de idosos
+        } else {
+            queue->priority_gone = 0;  // Reseto e agora vai ou um geral (Se não tiver, vai idoso)
 
-    // int removeClient(WaitingQueue* queue, char* name) {
+            if (queue->generalCount <= 0) {  // Se não houver nenhum geral, eu mando idoso
+                *returnClient = queue->head_eldery->client;
+                queue->head_eldery = queue->head_eldery->next;
+                queue->elderlyCount -= 1;
+                queue->priority_gone += 1;
+                return 1;
+            }
+            
+            // Do contrário, mando geral
+            *returnClient = queue->head_general->client;
+            queue->head_general = queue->head_general->next;
+            queue->generalCount -= 1;
+        }
 
-    // };
+        queue->size -= 1;
+
+        return 1;
+    };
+
+    /**
+     * @brief Remove um cliente a partir do seu nome
+     * 
+     * @param queue Fila que será utilizada
+     * @param name Nome do paciente que será removido
+     * @return int Retorna se a ação foi bem-sucedida
+     */
+    int removeClient(WaitingQueue* queue, char* name) {
+        if (queue == nullptr || queue->size == 0) {
+            return 0;
+        }
+
+        QueueNode* node_being_analyzed = queue->head_general;
+        // Procurando entre os não prioritários
+        for (int i = 0; i < queue->generalCount; i++) {
+            cout << "========================================" << endl;
+            cout << name << endl;
+            cout << node_being_analyzed->client.name << endl;
+
+            if (string(node_being_analyzed->client.name) == string(name)) {
+                if (node_being_analyzed->next != nullptr) {
+                    node_being_analyzed->next->previous = node_being_analyzed->previous;
+                } else {
+                    queue->tail_general = node_being_analyzed->previous;
+                    queue->tail_general->next = nullptr;
+                }
+
+                if (node_being_analyzed->previous != nullptr) {
+                    node_being_analyzed->previous->next = node_being_analyzed->next;
+                } else {
+                    queue->head_general = node_being_analyzed->next;
+                    queue->head_general->previous = nullptr;
+                }
+
+                queue->size -= 1;
+                queue->generalCount -= 1;
+
+                // delete node_being_analyzed;
+
+                return 1;
+            }
+
+            cout << "Ta dando certo" << endl;
+            node_being_analyzed = node_being_analyzed->next;
+        }
+
+        // Procurando entre os prioritários
+        for (int j = 0; j < queue->elderlyCount; j++) {
+            
+        }
+
+        return 0;
+    };
 
     // Client* getQueueOrder(const WaitingQueue* queue, int* numClients) {
 

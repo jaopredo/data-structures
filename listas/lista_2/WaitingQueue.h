@@ -28,23 +28,38 @@ namespace WaitingQueueTAD {
     };
 
     /**
-     * @brief Create a Queue object
+     * @brief Cria um objeto de Fila
      * 
-     * @return WaitingQueue* A pointer to the queue created
+     * @return WaitingQueue* Ponteiro para a fila criada
      */
     WaitingQueue* createQueue();
 
     /**
-     * @brief This function is responsible for enqueuing a new client
+     * @brief Essa função adiciona um paciente novo na fila
      * 
-     * @param queue The queue to be altered
-     * @param client The client that will be enqueued
+     * @param queue A fila que será manipulada
+     * @param client O cliente que vai ser adicionado
      */
     void enqueue(WaitingQueue* queue, Client client);
 
-
+    /**
+     * @brief Returo o próximo cliente
+     * 
+     * @param queue Fila que será manipulada
+     * @param returnClient Ponteiro para uma variável do tipo Client
+     * @return int Se a operação foi bem-sucedida ou não
+     */
     int peek(const WaitingQueue* queue, Client* returnClient);
+
+    /**
+     * @brief Re
+     * 
+     * @param queue 
+     * @param returnClient 
+     * @return int 
+     */
     int dequeue(WaitingQueue* queue, Client* returnClient);
+    
     int removeClient(WaitingQueue* queue, char* name);
     Client* getQueueOrder(const WaitingQueue* queue, int* numClients);
     void deleteQueue(WaitingQueue* queue);
