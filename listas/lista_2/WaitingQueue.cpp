@@ -1,3 +1,4 @@
+#include <limits>
 #include "WaitingQueue.h"
 #include <iostream>
 
@@ -84,16 +85,43 @@ namespace WaitingQueueTAD {
      * @param returnClient 
      * @return int 
      */
-    // int peek(const WaitingQueue* queue, Client* returnClient) {
-    //     if (queue->size == 0) {
-    //         returnClient = nullptr;
-    //         return 0;
-    //     }
+    int peek(const WaitingQueue* queue, Client* returnClient) {
+        if (queue->size == 0) {
+            // Se não houver ninguém
+            returnClient = nullptr;
+            return 0;
+        }
 
-    //     returnClient = &queue->head->client;
+        // Declarando variáveis úteis
+        int infinity = std::numeric_limits<int>::max();
+        QueueNode* head_eldery = queue->head_eldery;
+        QueueNode* head_general = queue->head_general;
 
-    //     return 1;
-    // };
+        // Farei isso para evitar muitos ifs la na frente e algumas
+        // Comparações já bastarem
+        if (head_eldery == nullptr) {
+            head_eldery = new QueueNode;
+            head_eldery->order = infinity;
+        }
+        if (head_general == nullptr) {
+            head_general = new QueueNode;
+            head_general->order = infinity;
+        }
+
+        if (queue->priority_gone < 2 && queue->elderlyCount > 0) {
+            // Se não foi nenhum idoso e tem idosos na fila
+            *returnClient = head_eldery->client;
+            // Retorno o primeiro na fila de idosos
+        } else {
+            if (head_eldery->order > head_general->order) {
+                *returnClient = queue->head_general->client;
+            } else {
+                *returnClient = queue->head_eldery->client;
+            }
+        }
+
+        return 1;
+    };
 
     // int dequeue(WaitingQueue* queue, Client* returnClient) {
 
