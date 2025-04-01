@@ -78,7 +78,11 @@ namespace WaitingQueueTAD {
      */
     Client* getQueueOrder(const WaitingQueue* queue, int* numClients);
 
-    
+    /**
+     * @brief Deleta a fila passada
+     * 
+     * @param queue Fila a ser deletada
+     */
     void deleteQueue(WaitingQueue* queue);
 }
 

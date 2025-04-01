@@ -126,12 +126,13 @@ namespace WaitingQueueTAD {
 
         QueueNode* temp = nullptr;
 
-
         if (queue->priority_gone < 2 && queue->elderlyCount > 0) {
             // Se não foi nenhum idoso e tem idosos na fila
             temp = queue->head_eldery;
             *returnClient = queue->head_eldery->client;
-            queue->head_eldery = queue->head_eldery->next;
+            if (queue->head_eldery->next != nullptr) {
+                queue->head_eldery = queue->head_eldery->next;
+            }
             queue->elderlyCount -= 1;
             queue->priority_gone += 1;
 
@@ -143,8 +144,11 @@ namespace WaitingQueueTAD {
             if (queue->generalCount <= 0) {  // Se não houver nenhum geral, eu mando idoso
                 temp = queue->head_eldery;
                 *returnClient = queue->head_eldery->client;
-                queue->head_eldery = queue->head_eldery->next;
+                if (queue->head_eldery->next != nullptr) {
+                    queue->head_eldery = queue->head_eldery->next;
+                }
                 queue->elderlyCount -= 1;
+                queue->size -= 1;
                 delete temp;
                 return 1;
             }
@@ -152,7 +156,9 @@ namespace WaitingQueueTAD {
             // Do contrário, mando geral
             temp = queue->head_general;
             *returnClient = queue->head_general->client;
-            queue->head_general = queue->head_general->next;
+            if (queue->head_general->next != nullptr) {
+                queue->head_general = queue->head_general->next;
+            }
             queue->generalCount -= 1;
             delete temp;
         }
@@ -269,6 +275,8 @@ namespace WaitingQueueTAD {
                 }
             }
         }
+
+        *numClients = queue->size;
 
         return arr;
     };

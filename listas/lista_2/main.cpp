@@ -56,8 +56,9 @@ int main() {
     Client* client_order = getQueueOrder(waiting_queue, &numClients);
 
     for (int i = 0; i < numClients; i++) {
-        cout << (client_order + i)->name << endl;
+        cout << (client_order + i)->name << ", ";
     }
+    cout << endl;
 
     delete[] client_order;
 
@@ -81,8 +82,9 @@ int main() {
     Client* new_client_order = getQueueOrder(waiting_queue, &numberClients);
 
     for (int i = 0; i < numberClients; i++) {
-        cout << (new_client_order + i)->name << endl;
+        cout << (new_client_order + i)->name << ", ";
     }
+    cout << endl;
 
     delete[] new_client_order;
 
@@ -95,14 +97,12 @@ int main() {
     // Mostrando tanto o pŕoximo paciente quando o cara atendido
     int size = waiting_queue->size;
 
-    for (int i = 0; i < size-1; i++) {
+    for (int i = 0; i < size; i++) {
         dequeue(waiting_queue, &dequeued_client);
 
         cout << "=========================" << endl;
         cout << "Paciente atendido: " << dequeued_client.name << endl;
         cout << "Tamanho atual da fila: " << waiting_queue->size << endl;
-        cout << "Eu tenho " << waiting_queue->elderlyCount << " idosos" << endl;
-        cout << "Eu tenho " << waiting_queue->generalCount << " gerais" << endl;
 
         peek(waiting_queue, &next_client);
 
