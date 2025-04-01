@@ -94,9 +94,6 @@ namespace WaitingQueueTAD {
             return 0;
         }
 
-        cout << queue->priority_gone << endl;
-        cout << queue->elderlyCount << endl;
-
         if (queue->priority_gone < 2 && queue->elderlyCount > 0) {
             // Se não foi nenhum idoso e tem idosos na fila
             *returnClient = queue->head_eldery->client;
@@ -168,43 +165,60 @@ namespace WaitingQueueTAD {
             return 0;
         }
 
-        QueueNode* node_being_analyzed = queue->head_general;
+        QueueNode* node_being_analyzed_general = queue->head_general;
         // Procurando entre os não prioritários
         for (int i = 0; i < queue->generalCount; i++) {
-            cout << "========================================" << endl;
-            cout << name << endl;
-            cout << node_being_analyzed->client.name << endl;
-
-            if (string(node_being_analyzed->client.name) == string(name)) {
-                if (node_being_analyzed->next != nullptr) {
-                    node_being_analyzed->next->previous = node_being_analyzed->previous;
+            if (string(node_being_analyzed_general->client.name) == string(name)) {
+                if (node_being_analyzed_general->next != nullptr) {
+                    node_being_analyzed_general->next->previous = node_being_analyzed_general->previous;
                 } else {
-                    queue->tail_general = node_being_analyzed->previous;
+                    queue->tail_general = node_being_analyzed_general->previous;
                     queue->tail_general->next = nullptr;
                 }
 
-                if (node_being_analyzed->previous != nullptr) {
-                    node_being_analyzed->previous->next = node_being_analyzed->next;
+                if (node_being_analyzed_general->previous != nullptr) {
+                    node_being_analyzed_general->previous->next = node_being_analyzed_general->next;
                 } else {
-                    queue->head_general = node_being_analyzed->next;
+                    queue->head_general = node_being_analyzed_general->next;
                     queue->head_general->previous = nullptr;
                 }
 
                 queue->size -= 1;
                 queue->generalCount -= 1;
 
-                // delete node_being_analyzed;
+                delete node_being_analyzed_general;
 
                 return 1;
             }
-
-            cout << "Ta dando certo" << endl;
-            node_being_analyzed = node_being_analyzed->next;
+            node_being_analyzed_general = node_being_analyzed_general->next;
         }
 
+        QueueNode* node_being_analyzed_eldery = queue->head_eldery;
         // Procurando entre os prioritários
         for (int j = 0; j < queue->elderlyCount; j++) {
-            
+            if (string(node_being_analyzed_eldery->client.name) == string(name)) {
+                if (node_being_analyzed_eldery->next != nullptr) {
+                    node_being_analyzed_eldery->next->previous = node_being_analyzed_eldery->previous;
+                } else {
+                    queue->tail_eldery = node_being_analyzed_eldery->previous;
+                    queue->tail_eldery->next = nullptr;
+                }
+
+                if (node_being_analyzed_eldery->previous != nullptr) {
+                    node_being_analyzed_eldery->previous->next = node_being_analyzed_eldery->next;
+                } else {
+                    queue->head_eldery = node_being_analyzed_eldery->next;
+                    queue->head_eldery->previous = nullptr;
+                }
+
+                queue->size -= 1;
+                queue->elderlyCount -= 1;
+
+                delete node_being_analyzed_eldery;
+
+                return 1;
+            }
+            node_being_analyzed_eldery = node_being_analyzed_eldery->next;
         }
 
         return 0;

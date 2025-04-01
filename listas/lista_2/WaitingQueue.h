@@ -60,6 +60,13 @@ namespace WaitingQueueTAD {
      */
     int dequeue(WaitingQueue* queue, Client* returnClient);
     
+    /**
+     * @brief Remove um cliente a partir do seu nome
+     * 
+     * @param queue Fila que será utilizada
+     * @param name Nome do paciente que será removido
+     * @return int Retorna se a ação foi bem-sucedida
+     */
     int removeClient(WaitingQueue* queue, char* name);
     Client* getQueueOrder(const WaitingQueue* queue, int* numClients);
     void deleteQueue(WaitingQueue* queue);

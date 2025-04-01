@@ -8,7 +8,7 @@ int main() {
     WaitingQueue* waiting_queue = createQueue();  // Criando a lista
 
     Client cliente_1 = Client();
-    cliente_1.name = "Seu Genésio";
+    cliente_1.name = "Seu Genesio";
     cliente_1.priority = 1;
 
     Client cliente_2 = Client();
@@ -36,7 +36,7 @@ int main() {
     cliente_7.priority = 1;
 
     Client cliente_8 = Client();
-    cliente_8.name = "Sônia";
+    cliente_8.name = "Sonia";
     cliente_8.priority = 1;
 
     enqueue(waiting_queue, cliente_1);
@@ -49,10 +49,12 @@ int main() {
     enqueue(waiting_queue, cliente_8);
 
     // Deletando um Geral
-    char nomeClienteParaDeletar[11] = "Joao Pedro";
-    removeClient(waiting_queue, nomeClienteParaDeletar);
+    char nome_cliente_geral_para_deletar[5] = "Alex";
+    removeClient(waiting_queue, nome_cliente_geral_para_deletar);
 
     // Deletando um Preferencial
+    char nome_cliente_preferencial_para_deletar[12] = "Seu Genesio";
+    removeClient(waiting_queue, nome_cliente_preferencial_para_deletar);
 
     // Vendo o próximo cliente
     Client next_client;
