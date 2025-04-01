@@ -68,7 +68,17 @@ namespace WaitingQueueTAD {
      * @return int Retorna se a ação foi bem-sucedida
      */
     int removeClient(WaitingQueue* queue, char* name);
+
+    /**
+     * @brief Retorna uma lista com os pacientes na exata ordem de atendimento
+     * 
+     * @param queue A lista que será analisada
+     * @param numClients Número de clientes na fila
+     * @return Client* Retorna o array de clientes
+     */
     Client* getQueueOrder(const WaitingQueue* queue, int* numClients);
+
+    
     void deleteQueue(WaitingQueue* queue);
 }
 

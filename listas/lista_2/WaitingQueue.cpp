@@ -124,28 +124,37 @@ namespace WaitingQueueTAD {
             return 0;
         }
 
+        QueueNode* temp = nullptr;
+
+
         if (queue->priority_gone < 2 && queue->elderlyCount > 0) {
             // Se não foi nenhum idoso e tem idosos na fila
+            temp = queue->head_eldery;
             *returnClient = queue->head_eldery->client;
             queue->head_eldery = queue->head_eldery->next;
             queue->elderlyCount -= 1;
             queue->priority_gone += 1;
+
+            delete temp;
             // Retorno o primeiro na fila de idosos
         } else {
             queue->priority_gone = 0;  // Reseto e agora vai ou um geral (Se não tiver, vai idoso)
 
             if (queue->generalCount <= 0) {  // Se não houver nenhum geral, eu mando idoso
+                temp = queue->head_eldery;
                 *returnClient = queue->head_eldery->client;
                 queue->head_eldery = queue->head_eldery->next;
                 queue->elderlyCount -= 1;
-                queue->priority_gone += 1;
+                delete temp;
                 return 1;
             }
             
             // Do contrário, mando geral
+            temp = queue->head_general;
             *returnClient = queue->head_general->client;
             queue->head_general = queue->head_general->next;
             queue->generalCount -= 1;
+            delete temp;
         }
 
         queue->size -= 1;
@@ -224,11 +233,75 @@ namespace WaitingQueueTAD {
         return 0;
     };
 
-    // Client* getQueueOrder(const WaitingQueue* queue, int* numClients) {
+    /**
+     * @brief Retorna uma lista com os pacientes na exata ordem de atendimento
+     * 
+     * @param queue A lista que será analisada
+     * @param numClients Número de clientes na fila
+     * @return Client* Retorna o array de clientes
+     */
+    Client* getQueueOrder(const WaitingQueue* queue, int* numClients) {
+        if (queue == nullptr || queue->size == 0) {
+            *numClients = 0;
+            return nullptr;
+        }
 
-    // };
+        Client* arr = new Client[queue->size];
+        
+        int elderyChecked = 0;
 
-    // void deleteQueue(WaitingQueue* queue) {
+        QueueNode* eldery_node_checked = queue->head_eldery;
+        QueueNode* general_node_checked = queue->head_general;
+        
+        for (int i = 0; i < queue->size; i++) {
+            if (elderyChecked < 2 && eldery_node_checked != nullptr) {
+                *(arr + i) = eldery_node_checked->client;
+                eldery_node_checked = eldery_node_checked->next;
+                elderyChecked += 1;
+            } else {
+                elderyChecked = 0;
+                if (general_node_checked != nullptr) {
+                    *(arr + i) = general_node_checked->client;
+                    general_node_checked = general_node_checked->next;
+                } else {
+                    *(arr + i) = eldery_node_checked->client;
+                    eldery_node_checked = eldery_node_checked->next;
+                }
+            }
+        }
 
-    // };
+        return arr;
+    };
+
+    /**
+     * @brief Deleta a fila passada
+     * 
+     * @param queue Fila a ser deletada
+     */
+    void deleteQueue(WaitingQueue* queue) {
+        cout << "===============" << endl;
+
+        // Declaro um nó temporário que usarei para percorrer a lista encadeada
+        QueueNode* actual_general_node = queue->head_general;
+        for (int i = 0; i < queue->generalCount; i++) { // Faço um for em todas as pessoas gerais
+            if (actual_general_node->next != nullptr) {  // Se o próximo nó não for nulo
+                actual_general_node = actual_general_node->next;  // Eu vou para o próximo
+                delete actual_general_node->previous;  // Deleto o anterior
+            }
+        }
+
+        // Declaro um nó temporário que usarei para percorrer a lista encadeada
+        QueueNode* actual_eldery_node = queue->head_eldery;
+        for (int i = 0; i < queue->elderlyCount; i++) { // Faço um for em todos os idosos
+            if (actual_eldery_node->next != nullptr) {  // Se o próximo nó não for nulo
+                actual_eldery_node = actual_eldery_node->next;  // Eu vou para o próximo
+                delete actual_eldery_node->previous;  // Deleto o anterior
+            }
+        }
+
+        delete actual_eldery_node;
+        delete actual_general_node;  // Deleto o último nó percorrido
+
+        delete queue;
+    };
 }
