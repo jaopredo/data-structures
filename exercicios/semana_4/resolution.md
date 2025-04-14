@@ -10,15 +10,15 @@ com os seguintes tempos de execução:
 Responda:
 1. Qual é a complexidade assintótica de cada algoritmo?
 
-Complexidade $ T_1 = O(n) $ e $ T_2 = O(n^2) $
+Complexidade $T_1 = O(n)$ e $T_2 = O(n^2)$
 
-2. Para quais valores de $n$ o algoritmo $T_1$​ é mais eficiente que o $T_2$​, e para quais valores$ $T_2$​ se torna mais eficiente que $T_1$​?
+2. Para quais valores de $n$ o algoritmo $T_1$​ é mais eficiente que o $T_2$​, e para quais valores $T_2$​ se torna mais eficiente que $T_1$​?
 
-$ T_1 \lt T_2 \Leftrightarrow n \lt 625 $
+$T_1 \lt T_2 \Leftrightarrow n \lt 625$
 
-$ T_1 = T_2 \Leftrightarrow n = 625 $
+$T_1 = T_2 \Leftrightarrow n = 625$
 
-$ T_1 \gt T_2 \Leftrightarrow n \gt 625 $
+$T_1 \gt T_2 \Leftrightarrow n \gt 625$
 
 Logo, $T_1$ é mais eficiente que $T_2$ para $n \gt 625$
 
@@ -27,19 +27,19 @@ O custo computacional $T_i(n)$ de diversos algoritmos é mostrado abaixo.\
 Qual a complexidade de cada algoritmo? Ponha-os em ordem crescente de complexidade.
 * $T_1(n)    = nlog(n)+log(n)$;
 
-$ T_1(n) = nlog(n) + log(n)$, como o termo $nlog(n)$ cresce muito mais rápido que $log(n)$, temos $O(nlog(n))$
+$T_1(n) = nlog(n) + log(n)$, como o termo $nlog(n)$ cresce muito mais rápido que $log(n)$, temos $O(nlog(n))$
 
 * $T_2(n)    = 2n + n^3 + 25$;
 
-$ T_2(n) = O(n^3) $
+$T_2(n) = O(n^3)$
 
 * $T_3(n,k)  = n+k$ onde $k \le n$
 
-$ T_3(n, k) = n + k /k \le n = O(n)$
+$T_3(n, k) = n + k /k \le n = O(n)$
 
 * $T_4(n)    = n + log(n)$;
 
-$ T_4(n) = n+log(n) $, como $n$ cresce mais rápido que $log(n)$ quando $n \rightarrow \infty$, logo $T_4(n) = O(n)$
+$T_4(n) = n+log(n)$, como $n$ cresce mais rápido que $log(n)$ quando $n \rightarrow \infty$, logo $T_4(n) = O(n)$
 
 * $T_5(n)    = 100n log(n) + n^3 + 100n$;
 
@@ -63,7 +63,7 @@ $T_9(n) = 100n + 0.01n^2 \sim n + n^2 = O(n^2)$
 
 * $T_{10}(n) = T(n) = 2T(n-1)+2$ para $n > 1$ e $T(1)=O(1)$; **Dica**: `método da árvore de recursão`
 
-$T_{10}(n) = T(n) = 2T(n-1)+2$ para $n > 1$ e $T(1)=O(1)$, fazemos então: $ T(n) = 2T(n-1)+2 = 2(T(n-1) + 1) = 2*2T(n-2) + 4 $, generalizando: $ T(n) = 2^nT(1) + 2n $, logo $T(n) = O(2^n) $
+$T_{10}(n) = T(n) = 2T(n-1)+2$ para $n > 1$ e $T(1)=O(1)$, fazemos então: $T(n) = 2T(n-1)+2 = 2(T(n-1) + 1) = 2*2T(n-2) + 4$, generalizando: $T(n) = 2^nT(1) + 2n$, logo $T(n) = O(2^n)$
 
 ## Questão 3
 
@@ -79,7 +79,7 @@ Calcule a complexidade dos algoritmos abaixo:
         b = b + j;
     }
     ```
-    $ n + n = O(n) $
+    $n + n = O(n)$
 
 2. Loop com condicionais
     ```c
@@ -96,7 +96,7 @@ Calcule a complexidade dos algoritmos abaixo:
         }
     }
     ```
-    Analisamos o pior caso, que é `arr[i] > 10`, logo, temos $ \sum_{i=1}^n\sum_{j=1}^n1 = nn=n^2 = O(n^2) $
+    Analisamos o pior caso, que é `arr[i] > 10`, logo, temos $\sum_{i=1}^n\sum_{j=1}^n1 = nn=n^2 = O(n^2)$
 
 3. Loops duplo
     ```c
@@ -107,7 +107,7 @@ Calcule a complexidade dos algoritmos abaixo:
         }
     }
     ```
-    $ \sum_{i=1}^n\sum_{j=i}^n1 = \sum_{i=1}^n(n-i+1) = \sum_{i=1}^nn - \sum_{i=1}^ni + \sum_{i=1}^n1 $, com certeza o maior termo será $n^2$, logo temos $O(n^2)$
+    $\sum_{i=1}^n\sum_{j=i}^n1 = \sum_{i=1}^n(n-i+1) = \sum_{i=1}^nn - \sum_{i=1}^ni + \sum_{i=1}^n1$, com certeza o maior termo será $n^2$, logo temos $O(n^2)$
 
 4. Loops duplo com constantes
     ```c
@@ -131,7 +131,7 @@ Calcule a complexidade dos algoritmos abaixo:
         }
     }
     ```
-    O loop interno tem o índice crescendo de 2 em 2, então temos $j_k = 2^k$, assim, como $j \le n$, então temos: $ 2^k \le n \Leftrightarrow log_2(2^k) \le log_2(n) \Leftrightarrow k \le log_2(n) \Rightarrow O(log(n)) $, já o loop externo tem $O(n)$, portanto, no total, temos $O(nlog(n))$
+    O loop interno tem o índice crescendo de 2 em 2, então temos $j_k = 2^k$, assim, como $j \le n$, então temos: $2^k \le n \Leftrightarrow log_2(2^k) \le log_2(n) \Leftrightarrow k \le log_2(n) \Rightarrow O(log(n))$, já o loop externo tem $O(n)$, portanto, no total, temos $O(nlog(n))$
 
 6. Loop com crescimento logarítmico
     ```c
@@ -141,7 +141,7 @@ Calcule a complexidade dos algoritmos abaixo:
         i /= 2;
     }
     ```
-    Temos que o termo i decresce metade a cada iteração, logo: $i_k = \frac{n}{2k}$, porém, isso é equivalente a iniciar com $i=1$ e ir duplicando seu valor e somando à variável `a`, e o loop parar somente quando `i>=n`. Obtemos então a mesma situação de antes, $ i_k = 2^k \Leftrightarrow i_k \le n \Leftrightarrow 2^k \le n \Leftrightarrow log_2(2^k) \le log_2(n) \Leftrightarrow k \le log_2(n) \Rightarrow O(log(n))$
+    Temos que o termo i decresce metade a cada iteração, logo: $i_k = \frac{n}{2k}$, porém, isso é equivalente a iniciar com $i=1$ e ir duplicando seu valor e somando à variável `a`, e o loop parar somente quando `i>=n`. Obtemos então a mesma situação de antes, $i_k = 2^k \Leftrightarrow i_k \le n \Leftrightarrow 2^k \le n \Leftrightarrow log_2(2^k) \le log_2(n) \Leftrightarrow k \le log_2(n) \Rightarrow O(log(n))$
 
 7. Loop duplo com redução logarítmica
     ```c
@@ -153,7 +153,7 @@ Calcule a complexidade dos algoritmos abaixo:
         i /= 2;
     }
     ```
-    Vamos ver como fica os somatórios totais: $ \sum_{j=0}^n1 + \sum_{j=0}^{\frac{n}{2}}1 + \sum_{j=0}^{\frac{n}{4}}1 + ... + \sum_{j=0}^11 = n + \frac{n}{2} + \frac{n}{4} + ... + 1$. Perceba que a quantidade de iterações não depende de $log(n)$ (Que seria o loop externo), logo, a complexidade do algoritmo é $O(n)$
+    Vamos ver como fica os somatórios totais: $\sum_{j=0}^n1 + \sum_{j=0}^{\frac{n}{2}}1 + \sum_{j=0}^{\frac{n}{4}}1 + ... + \sum_{j=0}^11 = n + \frac{n}{2} + \frac{n}{4} + ... + 1$. Perceba que a quantidade de iterações não depende de $log(n)$ (Que seria o loop externo), logo, a complexidade do algoritmo é $O(n)$
 
 8. Soma dos elementos de um vetor
     ```c
@@ -197,7 +197,7 @@ Calcule a complexidade dos algoritmos abaixo:
         }
     }
     ```
-    Na recorrência, nós pegamos o índice médio entre $i$ e $j$, e se $x$ for menor que o valor do array que está lá, nós fazemos a busca novamente, utilizando os novos índices sendo $m-1$ e $i$, assim, o novo valor de índice será $ \frac{i+\frac{i+j}{2}-1}{2} = \frac{2i+i+j-2}{4} $. Perceba que o tamanho de itens que eu vou precisar percorrer a cada iteração diminui pela metade, então, seja $i_k$, a quantidade de itens que eu preciso percorrer na k-ésima iteração, eu vou ter: $ i_k \ge 1 \Leftrightarrow \frac{n}{2^k} \le 1 \Leftrightarrow n \le 2^k \Leftrightarrow log_2(n) \le log_2(2^k) \Leftrightarrow log_2(n) \le k \Rightarrow O(log(n))$
+    Na recorrência, nós pegamos o índice médio entre $i$ e $j$, e se $x$ for menor que o valor do array que está lá, nós fazemos a busca novamente, utilizando os novos índices sendo $m-1$ e $i$, assim, o novo valor de índice será $\frac{i+\frac{i+j}{2}-1}{2} = \frac{2i+i+j-2}{4}$. Perceba que o tamanho de itens que eu vou precisar percorrer a cada iteração diminui pela metade, então, seja $i_k$, a quantidade de itens que eu preciso percorrer na k-ésima iteração, eu vou ter: $i_k \ge 1 \Leftrightarrow \frac{n}{2^k} \le 1 \Leftrightarrow n \le 2^k \Leftrightarrow log_2(n) \le log_2(2^k) \Leftrightarrow log_2(n) \le k \Rightarrow O(log(n))$
 
 11. Multiplicação de matrizes
     ```c
