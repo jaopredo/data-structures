@@ -108,6 +108,32 @@ Podemos criar duas variáveis indicando os índices que ambas as pilhas estão a
 
 Implemente a busca sequencial em uma lista circular.
 
+```cpp
+/**
+ * @brief This functions receives a circular queue and search for the passed value in the queue, and
+ * returns into the pointer passed the index that the value was found
+ * 
+ * @param q Circular Queue
+ * @param value Desired value
+ * @param index Variable that the index will be stored
+ * @return int 1 if the program finds the value, 0 if it doesn't
+ */
+int search_circular_queue(CircularQueue* q, int value, int* index) {
+    if (q->size == 0) {  // Empty queue
+        return 0;
+    }
+
+    for (int i = 0; i < q->size; i++) {
+        if (q->data[i] == value) {
+            *index = i;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+```
+
 ## Questão 7
 
 Enquanto uma pilha permite inserção e remoção de elementos apenas em uma extremidade e uma fila permite inserção em uma extremidade e remoção na outra, uma deque (double-ended queue, ou fila de extremidade dupla) permite inserção e remoção em ambas as extremidades.
@@ -120,6 +146,99 @@ Implemente quatro procedimentos de tempo $O(1)$ para:
 * Remover do fim.
 
 **OBS**: Considere uma deque implementada com um array.
+
+```cpp
+struct DoubleEndedQueue {
+    int head;
+    int tail;
+    int* data;
+    int size;
+    int maxSize;
+};
+
+DoubleEndedQueue* initialize_double_ended_queue(int maxSize) {
+    DoubleEndedQueue* q = new DoubleEndedQueue();
+    q->maxSize = maxSize;
+
+    if (q->maxSize % 2 == 0) {
+        q->head = q->maxSize / 2 + 1;
+        q->tail = q->maxSize / 2;
+    } else {
+        q->head = (q->maxSize+1) / 2 + 1;
+        q->tail = (q->maxSize+1) / 2;
+    }
+
+    q->data = new int[maxSize];
+    q->size = 0;
+
+    return q;
+}
+
+int start_enqueue_double_ended_queue(DoubleEndedQueue* q, int value) {
+    if (q->size == q->maxSize || (q->tail == q->head-1 && q->size != 0)) {
+        return 0;
+    }
+    
+    q->head -= 1;
+
+    if (q->head <= -1) {
+        q->head = q->maxSize-1;
+    }
+
+    q->data[q->head] = value;
+    q->size += 1;
+
+    return 1;
+}
+
+int end_enqueue_double_ended_queue(DoubleEndedQueue* q, int value) {
+    if (q->size == q->maxSize || (q->tail == q->head-1 && q->size != 0)) {
+        return 0;
+    }
+
+    q->tail = (q->tail + 1) % q->maxSize;  // Limiting the head to be inside the maxSize range
+    q->data[q->tail] = value;
+    q->size += 1;
+
+    return 1;
+}
+
+
+int end_dequeue_double_ended_queue(DoubleEndedQueue* q) {
+    if (q->size == 0 || (q->tail == q->head-1 && q->size != q->maxSize)) {
+        return 0;
+    }
+
+    q->data[q->tail] = 0;
+
+    q->tail -= 1;  // Limiting the head to be inside the maxSize range
+    if (q->tail <= -1) {
+        q->tail = q->tail-1;
+    }
+    q->size -= 1;
+
+    return 1;
+}
+
+int start_dequeue_double_ended_queue(DoubleEndedQueue* q) {
+    if (q->size == 0 || (q->tail == q->head-1 && q->size != q->maxSize)) {
+        return 0;
+    }
+
+    q->data[q->head] = 0;
+    q->head = (q->head + 1) % q->maxSize;  // Limiting the head to be inside the maxSize range
+    q->size -= 1;
+
+    return 1;
+}
+
+int destroy_double_ended_queue(DoubleEndedQueue* q) {
+    delete[] q->data;
+    delete q;
+    
+    return 1;
+}
+```
 
 ## Questão 8
 

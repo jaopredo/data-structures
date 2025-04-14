@@ -91,6 +91,7 @@ namespace TAD {
         q->head = 0;
         q->tail = -1;
         q->size = 0;
+        q->maxSize = maxSize;
         return q;
     }
 
