@@ -54,7 +54,7 @@ namespace TAD {
         int size;
     };
     
-    SingleLinkedList* create_single_linked_list();
+    SingleLinkedList* initialization_single_linked_list();
     void insert_front_single_linked_list(SingleLinkedList* list, int value);
     void insert_end_single_linked_list(SingleLinkedList* list, int value);
     void remove_front_single_linked_list(SingleLinkedList* list);
@@ -74,6 +74,8 @@ namespace TAD {
         int size;
     };
 
+
+    DoubleLinkedList* initialization_double_linked_list();
     void insert_front_double_linked_list(DoubleLinkedList* list, int value);
     void insert_end_double_linked_list(DoubleLinkedList* list, int value);
     void remove_front_double_linked_list(DoubleLinkedList* list);
