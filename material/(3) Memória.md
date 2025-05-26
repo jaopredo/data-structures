@@ -54,7 +54,7 @@ int* p = new int;
 delete p;
 ```
 
-Caso a memória não seja liberada, ocorrerá um *memory leak*, onde a memória nunca é liberada e espaço desnecessário na memória é utilizado
+Caso a memória não seja liberada, ocorrerá um *memory leak*, onde a memória nunca é liberada e espaço na memória fica esquecido sem ser utilizado
 
 Veja a seguinte imagem:
 
