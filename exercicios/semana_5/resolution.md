@@ -1,4 +1,4 @@
-# Aula 10: Exercícios sobre Tipos Abstratos de Dados (TAD) (RESOLUÇÃO)
+# Semana 5: Exercícios sobre Tipos Abstratos de Dados (TAD)
 
 ## Questão 1
 

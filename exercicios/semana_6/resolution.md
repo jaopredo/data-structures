@@ -1,4 +1,4 @@
-# Aula 12: Exercícios sobre Listas Encadeadas
+# Semana 6: Exercícios sobre Listas Encadeadas
 
 ## Questão 1
 Implemente uma classe de pilha (stack) utilizando uma lista simplesmente encadeada, sem uso de nós cabeça ou cauda. A implementação deve conter métodos para:

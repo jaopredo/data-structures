@@ -1,4 +1,5 @@
-# Resolução Exercícios Semana 5
+# Semana 4: Complexidade de Algoritmos
+
 ## Questão 1
 
 Suponha que temos dois algoritmos $T_1$ e $T_2$ para resolver um determinado problema,
