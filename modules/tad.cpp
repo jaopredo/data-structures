@@ -127,4 +127,204 @@ namespace TAD {
         *value = q->data[q->head];
         return 1;
     }
+
+    // ===========================================================================
+    struct SingleLinkedListNode {
+        int value;
+        SingleLinkedListNode* next;
+    };
+
+    // ===========================================================================
+    struct SingleLinkedList {
+        SingleLinkedListNode* head;
+        int size;
+    };
+
+    SingleLinkedList* initialization_single_linked_list() {
+        SingleLinkedList* list = new SingleLinkedList{};
+        list->head = nullptr;
+        list->size = 0;
+        return list;
+    }
+
+    void insert_front_single_linked_list(SingleLinkedList* list, int value) {
+        SingleLinkedListNode* newNode = new SingleLinkedListNode{};
+        newNode->value = value;
+        newNode->next = list->head;
+        
+        list->head = newNode;
+        list->size++;
+    }
+
+    void insert_end_single_linked_list(SingleLinkedList* list, int value) {
+        SingleLinkedListNode* newNode = new SingleLinkedListNode{};
+        newNode->value = value;
+        newNode->next = nullptr;
+        
+        if(list->head == nullptr) {
+            list->head = newNode;
+        } else {
+            SingleLinkedListNode* temp = list->head;
+            while(temp != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+        list->size++;
+    }
+
+    void remove_front_single_linked_list(SingleLinkedList* list) {
+        if (list->head == nullptr) {
+            return;
+        }
+
+        SingleLinkedListNode* temp = list->head;
+        list->head = list->head->next;
+        delete temp;
+        list->size--;
+    }
+
+    void remove_middle_single_linked_list(SingleLinkedList* list, int value) {
+        if (list->head == nullptr) {
+            return;
+        }
+        
+        SingleLinkedListNode* current = list->head;
+        while (current->next != nullptr && current->next->value != value) {
+            current = current->next;
+        }
+
+        if (current->next == nullptr) {
+            return;
+        }
+
+        SingleLinkedListNode* temp = current->next;
+        current->next = current->next->next;
+        delete temp;
+        list->size--;
+    }
+
+    bool search_single_single_linked_list(SingleLinkedList* list, int value) {
+        SingleLinkedListNode* current = list->head;
+        while (current != nullptr) {
+            if (current->value == value) {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
+    }
+
+    // ===========================================================================
+    struct DoubleLinkedListNode {
+        int value;
+        DoubleLinkedListNode* next;
+        DoubleLinkedListNode* prev;
+    };
+
+    // ===========================================================================
+    struct DoubleLinkedList {
+        DoubleLinkedListNode* head;
+        DoubleLinkedListNode* tail;
+        int size;
+    };
+
+    DoubleLinkedList* initialization_double_linked_list() {
+        DoubleLinkedList* list = new DoubleLinkedList;
+        list->head = nullptr;
+        list->tail = nullptr;
+        list->size = 0;
+        return list;
+    }
+    
+    void insert_front_double_linked_list(DoubleLinkedList* list, int value) {
+        DoubleLinkedListNode* newNode = new DoubleLinkedListNode{};
+        newNode->value = value;
+        newNode->next = list->head;
+        newNode->prev = nullptr;
+
+        if (list->head != nullptr) {
+            list->head->prev = newNode;
+        }
+        list->head = newNode;
+        
+        if (list->tail == nullptr) {
+            list->tail = newNode;
+        }
+
+        list->size++;
+    }
+
+    void insert_end_double_linked_list(DoubleLinkedList* list, int value) {
+        DoubleLinkedListNode* newNode = new DoubleLinkedListNode{};
+        newNode->value = value;
+        newNode->next = list->head;
+        newNode->prev = nullptr;
+
+        if (list->head == nullptr) {
+            list->head = newNode;
+        }
+
+        if (list->tail != nullptr) {
+            list->tail->next = newNode;
+        }
+        list->tail = newNode;
+
+        list->size++;
+    }
+
+    void remove_front_double_linked_list(DoubleLinkedList* list) {
+        if (list->head == nullptr) {
+            return;
+        }
+
+        DoubleLinkedListNode* temp = list->head;
+        list->head = list->head->next;
+        if (list->head != nullptr) {
+            list->head->prev = nullptr;
+        } else {
+            list->tail = nullptr;
+        }
+        delete temp;
+        list->size--;
+    }
+
+    void remove_middle_double_linked_list(DoubleLinkedList* list, int value) {
+        if (list->head == nullptr) {
+            return;
+        }
+
+        DoubleLinkedListNode* current = list->head;
+        while (current != nullptr && current->value != value) {
+            current = current->next;
+        }
+
+        if (current == nullptr) {
+            return;
+        }
+
+        current->prev->next = current->next;
+        if (current->next != nullptr) {
+            current->next->prev = current->prev;
+        }
+
+        delete current;
+        list->size--;
+    }
+
+    void remove_end_double_linked_list(DoubleLinkedList* list) {
+        if (list->tail == nullptr) {
+            return;
+        }
+
+        DoubleLinkedListNode* temp = list->tail;
+        list->tail = list->tail->prev;
+        if (list->tail != nullptr) {
+            list->tail->next = nullptr;
+        } else {
+            list->head = nullptr;
+        }
+        delete temp;
+        list->size--;
+    }
 }

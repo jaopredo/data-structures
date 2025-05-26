@@ -1,0 +1,3 @@
+./modules/compile.sh exercicios/semana_6 quest_1 q1
+
+Estrutura básica para usar o arquivo de compilação
