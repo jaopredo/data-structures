@@ -129,17 +129,6 @@ namespace TAD {
     }
 
     // ===========================================================================
-    struct SingleLinkedListNode {
-        int value;
-        SingleLinkedListNode* next;
-    };
-
-    // ===========================================================================
-    struct SingleLinkedList {
-        SingleLinkedListNode* head;
-        int size;
-    };
-
     SingleLinkedList* initialization_single_linked_list() {
         SingleLinkedList* list = new SingleLinkedList{};
         list->head = nullptr;
@@ -216,19 +205,6 @@ namespace TAD {
     }
 
     // ===========================================================================
-    struct DoubleLinkedListNode {
-        int value;
-        DoubleLinkedListNode* next;
-        DoubleLinkedListNode* prev;
-    };
-
-    // ===========================================================================
-    struct DoubleLinkedList {
-        DoubleLinkedListNode* head;
-        DoubleLinkedListNode* tail;
-        int size;
-    };
-
     DoubleLinkedList* initialization_double_linked_list() {
         DoubleLinkedList* list = new DoubleLinkedList;
         list->head = nullptr;
