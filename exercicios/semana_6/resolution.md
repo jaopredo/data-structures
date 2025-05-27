@@ -7,6 +7,83 @@ Implemente uma classe de pilha (stack) utilizando uma lista simplesmente encadea
 - Verificar se a pilha está vazia
 - Consultar o elemento no topo sem removê-lo (peek)
 
+```cpp
+
+struct Node {
+    int value;
+    Node* next_node;
+};
+
+struct Stack {
+    Node* top_node;
+    int size;
+    int max_size;
+};
+
+Stack* initialization_stack(int maxSize) {
+    Stack* stack = new Stack;
+    stack->max_size = maxSize;
+    stack->size = 0;
+    stack->top_node = nullptr;
+    return stack;
+}
+
+bool push(int value, Stack* s) {
+    if (s->size == s->max_size){
+        return false;
+    }
+
+    s->size += 1;
+
+    if (s->top_node == nullptr) {
+        s->top_node = new Node;
+        s->top_node->value = value;
+        s->top_node->next_node = nullptr;
+
+        return true;
+    }
+    Node* new_node = new Node;
+    new_node->value = value;
+    new_node->next_node = s->top_node;
+    s->top_node = new_node;
+
+    return true;
+}
+
+bool pop(Stack* s, int* return_value) {
+    if (s->size == 0) {
+        return false;
+    }
+
+    s->size-=1;
+    if (s->top_node->next_node == nullptr) {
+        *return_value = s->top_node->value;
+        Node* top_node = s->top_node;
+        s->top_node = nullptr;
+        delete top_node;
+        return true;
+    }
+
+    Node* top_node = s->top_node;
+    s->top_node = s->top_node->next_node;
+    *return_value = top_node->value;
+    delete top_node;
+
+    return true;
+}
+
+bool isEmpty(Stack* s) {
+    return s->size == 0;
+}
+
+bool peek(Stack* s, int* returnValue) {
+    if (!isEmpty(s)) {
+        *returnValue = s->top_node->value;
+    }
+    return !isEmpty(s);
+}
+```
+
 ## Questão 2
 Implemente uma classe de fila (queue) utilizando uma lista simplesmente encadeada, sem uso de nós cabeça ou cauda. A implementação deve conter métodos para:
 - Inserir um elemento (enqueue)
