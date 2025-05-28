@@ -66,6 +66,16 @@ bool pop(Stack* s, int* return_value) {
     return true;
 }
 
+void destroy_stack(Stack* s) {
+    int temp_val = 0;
+
+    while (s->top_node != nullptr) {
+        pop(s, &temp_val);
+    }
+
+    delete s;
+}
+
 bool isEmpty(Stack* s) {
     return s->size == 0;
 }
@@ -105,6 +115,8 @@ int main() {
     pop(s, &returnValue);
 
     cout << returnValue << endl;
+
+    destroy_stack(s);
 
     return 0;
 }
