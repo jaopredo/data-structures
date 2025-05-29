@@ -194,6 +194,51 @@ bool front(Queue* q, int* returnValue) {
 ## Questão 3
 Dadas duas listas ordenadas **L1** e **L2**, implemente um procedimento que compute **L1 ∩ L2** utilizando apenas operações básicas sobre listas.
 
+```cpp
+SingleLinkedList* get_ordered_list_intersection(SingleLinkedList* l1, SingleLinkedList* l2) {
+    SingleLinkedListNode* n1 = l1->head;
+    SingleLinkedListNode* n2 = l2->head;
+
+    if (n1 == nullptr || n2 == nullptr) {  // Se alguma lista tiver vazia
+        cout << "Alguma lista é vazia" << endl;
+        return nullptr;
+    }
+
+    SingleLinkedList* intersection = initialization_single_linked_list();
+
+    do {
+        if (n1->value == n2->value) {
+            insert_end_single_linked_list(intersection, n1->value);
+
+            if (n1->next != nullptr) {
+                n1 = n1->next;
+            } else if (n2->next != nullptr) {
+                n2 = n2->next;
+            }
+
+            continue;
+        }
+
+        if (n1->value < n2->value) {
+            if (n1->next != nullptr) {
+                n1 = n1->next;
+            } else if (n2->next != nullptr) {
+                n2 = n2->next;
+            }
+        }
+        if (n1->value > n2->value){
+            if (n2->next != nullptr) {
+                n2 = n2->next;
+            } else if (n1->next != nullptr) {
+                n1 = n1->next;
+            }
+        }
+    } while (n1->next != nullptr || n2->next != nullptr);
+
+    return intersection;
+}
+```
+
 ## Questão 4
 Dadas duas listas ordenadas **L1** e **L2**, implemente um procedimento que compute **L1 ∪ L2** utilizando apenas operações básicas sobre listas.
 
