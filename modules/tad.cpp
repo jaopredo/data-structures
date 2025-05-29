@@ -154,7 +154,7 @@ namespace TAD {
             list->head = newNode;
         } else {
             SingleLinkedListNode* temp = list->head;
-            while(temp != nullptr) {
+            while(temp->next != nullptr) {
                 temp = temp->next;
             }
             temp->next = newNode;
@@ -202,6 +202,16 @@ namespace TAD {
             current = current->next;
         }
         return false;
+    }
+
+    void destroy_single_linked_list(SingleLinkedList* list) {
+        SingleLinkedListNode* current = list->head;
+        while (current != nullptr) {
+            SingleLinkedListNode* temp = current;
+            current = current->next;
+            delete temp;
+        }
+        delete list;
     }
 
     // ===========================================================================
@@ -302,5 +312,15 @@ namespace TAD {
         }
         delete temp;
         list->size--;
+    }
+
+    void destroy_double_linked_list(DoubleLinkedList* list) {
+        DoubleLinkedListNode* current = list->head;
+        while (current != nullptr) {
+            DoubleLinkedListNode* temp = current;
+            current = current->next;
+            delete temp;
+        }
+        delete list;
     }
 }

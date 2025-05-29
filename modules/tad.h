@@ -60,8 +60,9 @@ namespace TAD {
     void remove_front_single_linked_list(SingleLinkedList* list);
     void remove_middle_single_linked_list(SingleLinkedList* list, int value);
     bool search_single_single_linked_list(SingleLinkedList* list, int value);
+    void destroy_single_linked_list(SingleLinkedList* list);
 
-    //Definindo as Listas duplamente Encadeadas
+    // Definindo as Listas duplamente Encadeadas
     struct DoubleLinkedListNode {
         int value;
         DoubleLinkedListNode* next;
@@ -80,7 +81,8 @@ namespace TAD {
     void insert_end_double_linked_list(DoubleLinkedList* list, int value);
     void remove_front_double_linked_list(DoubleLinkedList* list);
     void remove_middle_double_linked_list(DoubleLinkedList* list, int value);
-    void remove_end_double_linked_list(DoubleLinkedList* list) ;
+    void remove_end_double_linked_list(DoubleLinkedList* list);
+    void destroy_double_linked_list(DoubleLinkedList* list);
 }
 
 #endif
