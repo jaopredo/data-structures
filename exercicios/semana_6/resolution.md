@@ -410,3 +410,5 @@ void delete_node_single_linked_list(SingleLinkedListNode* n) {
 
 ## Questão 8
 A operação **UNION** em conjuntos dinâmicos recebe dois conjuntos disjuntos **S1** e **S2** e retorna um conjunto **S = S1 ∪ S2**, destruindo os conjuntos originais **S1** e **S2**. Mostre como realizar essa operação em **tempo O(1)** utilizando uma estrutura de dados de lista adequada.
+
+Se utilizarmos uma lista duplamente encadeada, ou uma lista simplesmente encadeada também funciona, porém a sua implementação necessitaria de um ponteiro para o nó cauda. Se ambas possuem essa estrutura de **nó cauda** e **nó cabeça**, eu simplesmente crio um link entre o nó cabeça de uma lista e o nó cauda da outra (Conjuntos Disjuntos), assim eu crio uma nova Lista encadeada e destruo as anteriores (Destruo apenas a parte superficial, mas manenho os nós alocados para a nova lista que estou criando)
