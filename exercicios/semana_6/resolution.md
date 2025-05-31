@@ -377,6 +377,25 @@ void swipe_adjascents_double_linked_list(DoubleLinkedList* l, int index) {
 ## Questão 6
 Desenvolva um algoritmo **não recursivo** que inverta uma lista simplesmente encadeada contendo **n** elementos em tempo **O(n)**, utilizando apenas um espaço de armazenamento constante além do necessário para a própria lista.
 
+```cpp
+void reverse_single_linked_list(SingleLinkedList* l) {
+    SingleLinkedListNode* previous = nullptr;
+    SingleLinkedListNode* actual = l->head;
+    SingleLinkedListNode* next = l->head->next;
+
+    while (next != nullptr) {
+        actual->next = previous;
+        previous = actual;
+        actual = next;
+        next = next->next;
+    }
+
+    actual->next = previous;
+
+    l->head = actual;
+}
+```
+
 ## Questão 7
 Suponha que temos um ponteiro para um nó em uma lista simplesmente encadeada, mas **não temos ponteiros para os nós anteriores**. Sabemos que esse nó **não é o último** da lista. Descreva e implemente um algoritmo **O(1)** que remova logicamente o valor armazenado nesse nó, mantendo a integridade da lista encadeada.
 
