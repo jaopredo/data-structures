@@ -399,5 +399,14 @@ void reverse_single_linked_list(SingleLinkedList* l) {
 ## Questão 7
 Suponha que temos um ponteiro para um nó em uma lista simplesmente encadeada, mas **não temos ponteiros para os nós anteriores**. Sabemos que esse nó **não é o último** da lista. Descreva e implemente um algoritmo **O(1)** que remova logicamente o valor armazenado nesse nó, mantendo a integridade da lista encadeada.
 
+```cpp
+void delete_node_single_linked_list(SingleLinkedListNode* n) {
+    SingleLinkedListNode* next_node = n->next;
+    n->value = next_node->value;
+    n->next = next_node->next;
+    delete next_node;
+}
+```
+
 ## Questão 8
 A operação **UNION** em conjuntos dinâmicos recebe dois conjuntos disjuntos **S1** e **S2** e retorna um conjunto **S = S1 ∪ S2**, destruindo os conjuntos originais **S1** e **S2**. Mostre como realizar essa operação em **tempo O(1)** utilizando uma estrutura de dados de lista adequada.
