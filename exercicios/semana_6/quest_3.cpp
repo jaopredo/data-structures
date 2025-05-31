@@ -48,7 +48,7 @@ SingleLinkedList* get_ordered_list_intersection(SingleLinkedList* l1, SingleLink
 }
 
 
-void print_linked_tree(SingleLinkedList* l, int list_to_show = 0) {
+void print_single_linked_tree(SingleLinkedList* l, int list_to_show = 0) {
     if (list_to_show != 0) {
         cout << "Lista " << list_to_show << ":" << endl;
     }
@@ -85,15 +85,15 @@ int main() {
     insert_end_single_linked_list(list2, 9);
 
     // Exibindo as duas listas
-    print_linked_tree(list1, 1);
+    print_single_linked_tree(list1, 1);
 
-    print_linked_tree(list2, 2);
+    print_single_linked_tree(list2, 2);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
 
     SingleLinkedList* intersection1 = get_ordered_list_intersection(list1, list2);
-    print_linked_tree(intersection1, 0);
+    print_single_linked_tree(intersection1, 0);
 
     cout << "================ LISTAS 3 E 4 =====================" << endl;
     // Cria duas listas simplesmente encadeadas ordenadas
@@ -115,15 +115,15 @@ int main() {
     insert_end_single_linked_list(list4, 8);
 
     // Exibindo as duas listas
-    print_linked_tree(list3, 3);
+    print_single_linked_tree(list3, 3);
 
-    print_linked_tree(list4, 4);
+    print_single_linked_tree(list4, 4);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
 
     SingleLinkedList* intersection2 = get_ordered_list_intersection(list3, list4);
-    print_linked_tree(intersection2, 0);
+    print_single_linked_tree(intersection2, 0);
 
     cout << "================ LISTAS 5 E 6 =====================" << endl;
     SingleLinkedList* list5 = initialization_single_linked_list();
@@ -145,15 +145,15 @@ int main() {
     insert_end_single_linked_list(list6, 7);
 
     // Exibindo as duas listas
-    print_linked_tree(list5, 5);
+    print_single_linked_tree(list5, 5);
 
-    print_linked_tree(list6, 6);
+    print_single_linked_tree(list6, 6);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
 
     SingleLinkedList* intersection3 = get_ordered_list_intersection(list5, list6);
-    print_linked_tree(intersection3, 0);
+    print_single_linked_tree(intersection3, 0);
 
     cout << "================ LISTAS 7 E 8 =====================" << endl;
     SingleLinkedList* list7 = initialization_single_linked_list();
@@ -175,15 +175,15 @@ int main() {
     insert_end_single_linked_list(list8, 13);
 
     // Exibindo as duas listas
-    print_linked_tree(list7, 7);
+    print_single_linked_tree(list7, 7);
 
-    print_linked_tree(list8, 8);
+    print_single_linked_tree(list8, 8);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
 
     SingleLinkedList* intersection4 = get_ordered_list_intersection(list7, list8);
-    print_linked_tree(intersection4, 0);
+    print_single_linked_tree(intersection4, 0);
 
     cout << "================ LISTAS 9 E 10 =====================" << endl;
     SingleLinkedList* list9 = initialization_single_linked_list();
@@ -206,15 +206,15 @@ int main() {
 
 
     // Exibindo as duas listas
-    print_linked_tree(list9, 9);
+    print_single_linked_tree(list9, 9);
 
-    print_linked_tree(list10, 10);
+    print_single_linked_tree(list10, 10);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
 
     SingleLinkedList* intersection5 = get_ordered_list_intersection(list9, list10);
-    print_linked_tree(intersection5, 0);
+    print_single_linked_tree(intersection5, 0);
 
     cout << "================ LISTAS 11 E 12 =====================" << endl;
     SingleLinkedList* list11 = initialization_single_linked_list();
@@ -236,15 +236,15 @@ int main() {
     insert_end_single_linked_list(list12, 30);
 
     // Exibindo as duas listas
-    print_linked_tree(list11, 11);
+    print_single_linked_tree(list11, 11);
 
-    print_linked_tree(list12, 12);
+    print_single_linked_tree(list12, 12);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
 
     SingleLinkedList* intersection6 = get_ordered_list_intersection(list11, list12);
-    print_linked_tree(intersection6, 0);
+    print_single_linked_tree(intersection6, 0);
 
     cout << "================ LISTAS 13 E 14 =====================" << endl;
     SingleLinkedList* list13 = initialization_single_linked_list();
@@ -266,15 +266,15 @@ int main() {
     insert_end_single_linked_list(list14, 14);
 
     // Exibindo as duas listas
-    print_linked_tree(list13, 13);
+    print_single_linked_tree(list13, 13);
 
-    print_linked_tree(list14, 14);
+    print_single_linked_tree(list14, 14);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
 
     SingleLinkedList* intersection7 = get_ordered_list_intersection(list13, list14);
-    print_linked_tree(intersection7, 0);
+    print_single_linked_tree(intersection7, 0);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
@@ -300,15 +300,15 @@ int main() {
     insert_end_single_linked_list(list16, 14);
 
     // Exibindo as duas listas
-    print_linked_tree(list15, 13);
+    print_single_linked_tree(list15, 13);
 
-    print_linked_tree(list16, 14);
+    print_single_linked_tree(list16, 14);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
 
     SingleLinkedList* intersection8 = get_ordered_list_intersection(list15, list16);
-    print_linked_tree(intersection8, 0);
+    print_single_linked_tree(intersection8, 0);
 
     cout << "================ LISTAS 17 E 18 =====================" << endl;
     SingleLinkedList* list17 = initialization_single_linked_list();
@@ -330,15 +330,15 @@ int main() {
     insert_end_single_linked_list(list18, 7);
 
     // Exibindo as duas listas
-    print_linked_tree(list17, 13);
+    print_single_linked_tree(list17, 13);
 
-    print_linked_tree(list18, 14);
+    print_single_linked_tree(list18, 14);
 
     cout << "=========================================" << endl;
     cout << "Intersecção:" << endl;
 
     SingleLinkedList* intersection9 = get_ordered_list_intersection(list17, list18);
-    print_linked_tree(intersection9, 0);
+    print_single_linked_tree(intersection9, 0);
 
     // Destruindo as listas 
     destroy_single_linked_list(list1);

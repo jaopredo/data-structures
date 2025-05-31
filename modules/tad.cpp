@@ -222,62 +222,72 @@ namespace TAD {
         list->size = 0;
         return list;
     }
-    
+
     void insert_front_double_linked_list(DoubleLinkedList* list, int value) {
-        DoubleLinkedListNode* newNode = new DoubleLinkedListNode{};
-        newNode->value = value;
-        newNode->next = list->head;
-        newNode->prev = nullptr;
+        DoubleLinkedListNode* newNode = new DoubleLinkedListNode{value, list->head, nullptr};
 
         if (list->head != nullptr) {
             list->head->prev = newNode;
-        }
-        list->head = newNode;
-        
-        if (list->tail == nullptr) {
-            list->tail = newNode;
+        } else {
+            list->tail = newNode;  // Lista estava vazia
         }
 
+        list->head = newNode;
         list->size++;
     }
 
     void insert_end_double_linked_list(DoubleLinkedList* list, int value) {
-        DoubleLinkedListNode* newNode = new DoubleLinkedListNode{};
-        newNode->value = value;
-        newNode->next = list->head;
-        newNode->prev = nullptr;
-
-        if (list->head == nullptr) {
-            list->head = newNode;
-        }
+        DoubleLinkedListNode* newNode = new DoubleLinkedListNode{value, nullptr, list->tail};
 
         if (list->tail != nullptr) {
             list->tail->next = newNode;
+        } else {
+            list->head = newNode;  // Lista estava vazia
         }
-        list->tail = newNode;
 
+        list->tail = newNode;
         list->size++;
     }
 
     void remove_front_double_linked_list(DoubleLinkedList* list) {
         if (list->head == nullptr) {
-            return;
+            return;  // Lista vazia
         }
 
         DoubleLinkedListNode* temp = list->head;
         list->head = list->head->next;
+
         if (list->head != nullptr) {
             list->head->prev = nullptr;
         } else {
-            list->tail = nullptr;
+            list->tail = nullptr;  // Lista ficou vazia
         }
+
+        delete temp;
+        list->size--;
+    }
+
+    void remove_end_double_linked_list(DoubleLinkedList* list) {
+        if (list->tail == nullptr) {
+            return;  // Lista vazia
+        }
+
+        DoubleLinkedListNode* temp = list->tail;
+        list->tail = list->tail->prev;
+
+        if (list->tail != nullptr) {
+            list->tail->next = nullptr;
+        } else {
+            list->head = nullptr;  // Lista ficou vazia
+        }
+
         delete temp;
         list->size--;
     }
 
     void remove_middle_double_linked_list(DoubleLinkedList* list, int value) {
         if (list->head == nullptr) {
-            return;
+            return;  // Lista vazia
         }
 
         DoubleLinkedListNode* current = list->head;
@@ -286,32 +296,19 @@ namespace TAD {
         }
 
         if (current == nullptr) {
-            return;
+            return;  // Valor não encontrado
         }
 
-        current->prev->next = current->next;
-        if (current->next != nullptr) {
-            current->next->prev = current->prev;
-        }
-
-        delete current;
-        list->size--;
-    }
-
-    void remove_end_double_linked_list(DoubleLinkedList* list) {
-        if (list->tail == nullptr) {
-            return;
-        }
-
-        DoubleLinkedListNode* temp = list->tail;
-        list->tail = list->tail->prev;
-        if (list->tail != nullptr) {
-            list->tail->next = nullptr;
+        if (current == list->head) {
+            remove_front_double_linked_list(list);
+        } else if (current == list->tail) {
+            remove_end_double_linked_list(list);
         } else {
-            list->head = nullptr;
+            current->prev->next = current->next;
+            current->next->prev = current->prev;
+            delete current;
+            list->size--;
         }
-        delete temp;
-        list->size--;
     }
 
     void destroy_double_linked_list(DoubleLinkedList* list) {
@@ -323,4 +320,5 @@ namespace TAD {
         }
         delete list;
     }
+
 }

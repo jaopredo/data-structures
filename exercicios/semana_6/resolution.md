@@ -296,6 +296,84 @@ Implemente um método para trocar dois elementos adjacentes em uma lista encadea
 - (a) Listas simplesmente encadeadas
 - (b) Listas duplamente encadeadas
 
+```cpp
+// Na segunda função eu removi os if do index, mas na primeira eu fiquei com preguiça de voltar e remover
+
+/**
+ * @brief Swipes adjascent nodes in a single linked list
+ * 
+ * @param l A single linked list
+ * @param index The "index" of the node that will be swiped (e.g If 1 is passed, the second and third nodes are swiped)
+ */
+void swipe_adjascents_single_linked_list(SingleLinkedList* l, int index) {
+    int counter = 0;
+
+    SingleLinkedListNode* temp_previous = nullptr;
+    SingleLinkedListNode* temp_actual = l->head;
+    SingleLinkedListNode* temp_next = l->head->next;
+
+    if (index != 0) {
+        while(counter < index-1) {
+            counter += 1;
+
+            temp_previous = temp_actual;
+            temp_actual = temp_actual->next;
+            temp_next = temp_actual->next;
+        }
+
+        temp_actual->next = temp_next->next;
+        temp_previous->next = temp_next;
+        temp_next->next = temp_actual;
+    } else {
+        temp_actual->next = temp_next->next;
+        temp_next->next = temp_actual;
+
+        l->head = temp_next;
+    }
+}
+
+
+/**
+ * @brief Swipes adjascent nodes in a double linked list
+ * 
+ * @param l A double linked list
+ * @param index The "index" of the node that will be swiped (e.g If 1 is passed, the second and third nodes are swiped)
+ */
+void swipe_adjascents_double_linked_list(DoubleLinkedList* l, int index) {
+    int counter = 0;
+
+    DoubleLinkedListNode* temp_previous = nullptr;
+    DoubleLinkedListNode* temp_actual = l->head;
+    DoubleLinkedListNode* temp_next = l->head->next;
+
+    while(counter < index) {
+        temp_previous = temp_actual;
+        temp_actual = temp_actual->next;
+        temp_next = temp_actual->next;
+
+        counter++;
+    }
+
+    temp_actual->next = temp_next->next;
+
+    if (temp_next->next != nullptr) {
+        temp_next->next->prev = temp_actual;
+    } else {
+        l->tail = temp_next->prev;
+    }
+
+    if (temp_previous != nullptr) {
+        temp_previous->next = temp_next;
+    } else {
+        l->head = temp_next;
+    }
+
+    temp_actual->prev = temp_next;
+    temp_next->prev = temp_previous;
+    temp_next->next = temp_actual;
+}
+```
+
 ## Questão 6
 Desenvolva um algoritmo **não recursivo** que inverta uma lista simplesmente encadeada contendo **n** elementos em tempo **O(n)**, utilizando apenas um espaço de armazenamento constante além do necessário para a própria lista.
 
