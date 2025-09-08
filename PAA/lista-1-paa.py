@@ -53,13 +53,6 @@ class TreeNode:
                 self.right.insert(value)
             else:
                 self.right = TreeNode(value)
-    
-    def print_tree(self, level=0, prefix="Raiz: "):
-        print(" " * (4 * level) + prefix + str(self.val))
-        if self.left:
-            self.left.print_tree(level + 1, "L--- ")
-        if self.right:
-            self.right.print_tree(level + 1, "R--- ")
 
 # ==============================================================================
 # Problema 6
@@ -133,7 +126,28 @@ def problema_7(A: List[int]) -> List[int]:
     ele pode usar apenas um espaço de memória constante além do próprio $A$. Na prática, 
     isso significa que você não pode usar outro array auxiliar.
     """
-    pass
+    i = 0
+    j = -1
+    array_size = len(A)
+
+    def swap(A, i, j):
+        Ai = A[i]
+        A[i] = A[j]
+        A[j] = Ai
+
+    for _ in range(array_size):
+        if A[i] % 2 == 1 and A[j] % 2 == 0:
+            swap(A, i, j)
+        
+        if A[i+1] == A[j]:
+            break
+        
+        if A[i] % 2 == 0:
+            i += 1
+        if A[j] % 2 == 1:
+            j -= 1
+
+    return A
 
 # ==============================================================================
 # Problema 8
@@ -169,12 +183,20 @@ def problema_8_c(A: List[int], k: int) -> int:
 
 
 if __name__ == "__main__":
-    values_to_insert = [ 5, 10, 1, 6, 14, 4, 7, 13, 2 ]
-    root = TreeNode(8)
+    listas = [
+        [72, 43, 6, 51, 89, 16, 67, 34, 95, 28],
+        [12, 83, 44, 57, 70, 63, 41, 92, 10, 29],
+        [7, 64, 82, 15, 38, 23, 59, 2, 49, 90],
+        [18, 75, 26, 47, 8, 55, 96, 31, 12, 61],
+        [20, 5, 13, 44, 87, 74, 33, 2, 91, 68],
+        [60, 35, 10, 23, 78, 49, 84, 3, 99, 26],
+        [1, 92, 50, 37, 8, 75, 62, 15, 20, 43],
+        [6, 81, 64, 13, 42, 19, 24, 9, 71, 58],
+        [32, 85, 7, 68, 19, 54, 2, 37, 95, 46],
+        [88, 11, 20, 39, 4, 93, 28, 51, 76, 65]
+    ]
 
-    for val in values_to_insert:
-        root.insert(val)
-    
-    root.print_tree()
-
-    print(problema_6(root))
+    for lista in listas:
+        print()
+        print(lista)
+        print(problema_7(lista))
