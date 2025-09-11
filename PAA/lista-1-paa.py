@@ -53,6 +53,18 @@ class TreeNode:
                 self.right.insert(value)
             else:
                 self.right = TreeNode(value)
+    
+    def print_tree(self, level: int = 0, prefix: str = "Root: "):
+        # Imprime a parte direita primeiro (vai aparecer em cima)
+        if self.right:
+            self.right.print_tree(level + 1, "R--- ")
+        
+        # Imprime o nó atual, com indentação proporcional ao nível
+        print("   " * level + prefix + str(self.val))
+        
+        # Imprime a parte esquerda (vai aparecer embaixo)
+        if self.left:
+            self.left.print_tree(level + 1, "L--- ")
 
 # ==============================================================================
 # Problema 6
@@ -66,50 +78,20 @@ def problema_6(raiz: Optional[TreeNode]) -> int:
     # Inicio minha menor distância como infinito
     menor_distancia = float("inf")
 
-    def comparar_valores(raiz: TreeNode):
+    # Faço o inorder trasversal
+    def comparar_in_order(raiz: TreeNode, anterior: int):
         nonlocal menor_distancia
-        if raiz:
-            # Pego os nós de direita e esquerda
-            direita = raiz.right
-            esquerda = raiz.left
+        if raiz.left:
+            comparar_in_order(raiz.left, raiz.val)
+        
+        dif = abs(raiz.val - anterior)
+        if menor_distancia >= dif:
+            menor_distancia = dif
+        
+        if raiz.right:
+            comparar_in_order(raiz.right, raiz.val)
 
-            # Se o nó da direita existe
-            if direita:
-                # Vou pegar ele e percorrer todos os seus nós esquerdos, já que, se
-                # eu pegar algum nó direito eu vou estar aumentando a distância entre
-                # meu nó atual (raíz) e o nó que eu estou percorrendo
-
-                # Checo a diferença entre meu nó raíz e o seu nó da direita
-                diferenca = abs(raiz.val - direita.val)
-                menor_distancia = min(diferenca, menor_distancia)
-
-                # Agora vou percorrer todos os nós na esquerda do nó direito
-                atual = direita.left
-                while atual and atual.left:
-                    diferenca = abs(raiz.val - atual.val)
-                    menor_distancia = min(menor_distancia, diferenca)
-                    atual = atual.left
-            # Se o nó da esquerda existe
-            if esquerda:
-                # Vou repitir o mesmo processo, trocando apenas left por right,
-                # já que a mesma lógica vai valer
-
-                # Checo a diferença entre meu nó raíz e meu nó da esquerda
-                diferenca = abs(raiz.val - esquerda.val)
-                menor_distancia = min(diferenca, menor_distancia)
-
-                # Vou percorrer todos os nós na direita do meu nó esquerdo
-                atual = esquerda.right
-                while atual and atual.right:
-                    diferenca = abs(raiz.val - atual.val)
-                    menor_distancia = min(menor_distancia, diferenca)
-                    atual = atual.right
-            
-            # Faço isso recursivamente para todos os nós na árvore
-            comparar_valores(direita)
-            comparar_valores(esquerda)
-
-    comparar_valores(raiz)
+    comparar_in_order(raiz, menor_distancia)
 
     return menor_distancia
 
@@ -197,6 +179,13 @@ if __name__ == "__main__":
     ]
 
     for lista in listas:
+        root = TreeNode(lista[0])
+        for i in range(1,len(lista)):
+            root.insert(lista[i])
+        
+        root.print_tree()
+
         print()
-        print(lista)
-        print(problema_7(lista))
+
+        print(f"Menor diferença: {problema_6(root)}")
+        print("="*20)
