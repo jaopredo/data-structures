@@ -81,14 +81,22 @@ def problema_6(raiz: Optional[TreeNode]) -> int:
     # Faço o inorder trasversal
     def comparar_in_order(raiz: TreeNode, anterior: int):
         nonlocal menor_distancia
+        # Se eu tenho uma subárvore na esquerda
         if raiz.left:
+            # Começo a percorrer a subarvore da esquerda
             comparar_in_order(raiz.left, raiz.val)
         
+        # Faço a diferença do nó atual com o anterior
         dif = abs(raiz.val - anterior)
+
+        # Se a distância menor encontrada for maior que a atual
         if menor_distancia >= dif:
+            # Atulizo a menor distância
             menor_distancia = dif
         
+        # Se eu tenho uma subárvore na direita
         if raiz.right:
+            # Também vou percorrer essa subárvore
             comparar_in_order(raiz.right, raiz.val)
 
     comparar_in_order(raiz, menor_distancia)
@@ -144,7 +152,30 @@ def problema_8_a(A: List[int], k: int) -> int:
 
     Projete o algoritmo com complexidade de execução $O(n)$
     """
-    pass
+    auxiliar = {}  # Hash auxiliar para armazenar os valores que foram analisados
+    qtd = 0  # O valor que será retornado
+
+    for element in A:  # Para cada elemento em A
+        procurar = k - element  # Vejo que elemento deve estar na lista
+                                # Para somar na quantidade que será retornada
+        
+        # Se o elemento que eu tenho que procurar estiver no dicionário
+        if procurar in auxiliar:
+            # Então eu somo a quantidade de vezes que
+            # ele foi observado com a quantidade de
+            # combinações possiveis
+            qtd += auxiliar[procurar]
+        
+        # Se o elemento atual for uma chave no dicionário
+        if element in auxiliar:
+            # Eu somo mais 1 na quantidade de elementos
+            # observado
+            auxiliar[element] += 1
+        else:  # Se não
+            # Eu crio a chave com esse elemento
+            auxiliar[element] = 1
+    
+    return qtd
 
 def problema_8_b(A: List[int], k: int) -> int:
     """
@@ -166,26 +197,11 @@ def problema_8_c(A: List[int], k: int) -> int:
 
 if __name__ == "__main__":
     listas = [
-        [72, 43, 6, 51, 89, 16, 67, 34, 95, 28],
-        [12, 83, 44, 57, 70, 63, 41, 92, 10, 29],
-        [7, 64, 82, 15, 38, 23, 59, 2, 49, 90],
-        [18, 75, 26, 47, 8, 55, 96, 31, 12, 61],
-        [20, 5, 13, 44, 87, 74, 33, 2, 91, 68],
-        [60, 35, 10, 23, 78, 49, 84, 3, 99, 26],
-        [1, 92, 50, 37, 8, 75, 62, 15, 20, 43],
-        [6, 81, 64, 13, 42, 19, 24, 9, 71, 58],
-        [32, 85, 7, 68, 19, 54, 2, 37, 95, 46],
-        [88, 11, 20, 39, 4, 93, 28, 51, 76, 65]
+        ([3,2,6], 7),
+        ([1,4,5,1,3,2,6], 7),
+        ([1,4,5,1,3,2,6], 5),
+        ([1,2,3,1], 4)
     ]
 
-    for lista in listas:
-        root = TreeNode(lista[0])
-        for i in range(1,len(lista)):
-            root.insert(lista[i])
-        
-        root.print_tree()
-
-        print()
-
-        print(f"Menor diferença: {problema_6(root)}")
-        print("="*20)
+    for lista, k in listas:
+        print(problema_8_a(lista, k))
