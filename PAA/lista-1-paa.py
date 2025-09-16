@@ -53,18 +53,6 @@ class TreeNode:
                 self.right.insert(value)
             else:
                 self.right = TreeNode(value)
-    
-    def print_tree(self, level: int = 0, prefix: str = "Root: "):
-        # Imprime a parte direita primeiro (vai aparecer em cima)
-        if self.right:
-            self.right.print_tree(level + 1, "R--- ")
-        
-        # Imprime o nó atual, com indentação proporcional ao nível
-        print("   " * level + prefix + str(self.val))
-        
-        # Imprime a parte esquerda (vai aparecer embaixo)
-        if self.left:
-            self.left.print_tree(level + 1, "L--- ")
 
 # ==============================================================================
 # Problema 6
