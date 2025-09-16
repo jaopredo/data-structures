@@ -186,22 +186,58 @@ def problema_8_b(A: List[int], k: int) -> int:
     """
     pass
 
-def problema_8_c(A: List[int], k: int) -> int:
+def problema_8_c(A: List[int], k: int, debug=False) -> int:
     """
     [...]
     Novamente assumindo que A está ordenado, projeto o algoritmo com complexidade 
     de execução $O(n)$ e complexidade de espaço $O(1)$
     """
-    pass
+    i = 0  # Índice de análise direito
+    j = len(A)-1  # Índice e análise esquerdo
+    qtd = 0  # Quantidade de combinações da soma de k
 
+    # Variáveis de controle para evitar contagens repetidas
+    changed_i = False
+    changed_j = False
+    # Quantas vezes eu analisei um valor repetido
+    repeated_i = 1
+    repeated_j = 1
+    while i < j:
+        if A[i] + A[j] < k:
+            changed_i = True
+            changed_j = False
+            i += 1
+        elif A[i] + A[j] > k:
+            changed_i = False
+            changed_j = True
+            j -= 1
+        else:
+            if A[i] != A[j]:
+                # Analisando se o elemento anterior é igual ao atual:
+                if i > 0 and A[i-1] == A[i] and changed_i:
+                    repeated_i += 1
+                if j < len(A)-1 and A[j+1] == A[j] and changed_j:
+                    repeated_j += 1
+        
+                if A[i+1]==A[i]:
+                    changed_i = True
+                    changed_j = False
+                    i+=1
+                elif A[j-1]==A[j]:
+                    changed_j = True
+                    changed_i = False
+                    j-=1
+                else:
+                    qtd += repeated_i * repeated_j
 
-if __name__ == "__main__":
-    listas = [
-        ([3,2,6], 7),
-        ([1,4,5,1,3,2,6], 7),
-        ([1,4,5,1,3,2,6], 5),
-        ([1,2,3,1], 4)
-    ]
+                    repeated_j = 1
+                    repeated_i = 1
 
-    for lista, k in listas:
-        print(problema_8_a(lista, k))
+                    changed_i = True
+                    changed_j = False
+                    i += 1
+            else:
+                qtd += (j-i+1)*(j-i)//2
+                break
+    
+    return qtd
