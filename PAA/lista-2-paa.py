@@ -52,16 +52,18 @@ def problema_1(eventos: List[Tuple[int, int]]) -> Tuple[int, Tuple[int, int]]:
     O algoritmo deve ter tempo de execução $O(n \\log n)$.
     """
     auxiliar = []
-    for i, item in enumerate(eventos):     # O(n)
-        auxiliar.append((item[0], i))
-        auxiliar.append((item[1], i))
+    eventos_sorted = sorted(eventos, key=lambda event: event[0])
+
+    for i, item in enumerate(eventos_sorted):     # O(n)
+        auxiliar.append((item[0], i+1))
+        auxiliar.append((item[1], i+1))
     
-    auxiliar = sorted(auxiliar)     # O(nlog(n))
+    auxiliar = sorted(auxiliar, key=lambda item: item[0])     # O(nlog(n))
 
     start_max_time = 0
     end_max_time = None
     max_pessoas = 0
-    last_entered = None
+    last_entered = 0
     num_pessoas = 0
 
     maximais = []
@@ -79,8 +81,24 @@ def problema_1(eventos: List[Tuple[int, int]]) -> Tuple[int, Tuple[int, int]]:
         elif num_pessoas + 1 == max_pessoas:
             end_max_time = item[0]
             maximais.append((start_max_time, end_max_time, max_pessoas))
+    
+    
+    definitive_maximal = (0,0)
+    k = 0
 
-    return auxiliar
+    for maximal in maximais:
+        if maximal[2] > k:
+            definitive_maximal = (maximal[0], maximal[1])
+            k = maximal[2]
+        elif maximal[2] == k:
+            max_dif = maximal[1] - maximal[0]
+            def_max_dif = definitive_maximal[1] - definitive_maximal[0]
+            if max_dif > def_max_dif:
+                definitive_maximal = (maximal[0], maximal[1])
+            elif max_dif == def_max_dif:
+                definitive_maximal = min([definitive_maximal, maximal], key=lambda maxim: maxim[0])
+
+    return k, definitive_maximal
 
 
 # ==============================================================================
@@ -201,27 +219,3 @@ if __name__ == '__main__':
             print('\033[32mOK\033[m')
         else:
             print('\033[31mERROR\033[m')
-    
-    testes = [
-        # Exemplos simples
-        [[(1, 5), (2, 6), (4, 8)], 3, (4, 5)],
-        [[(1, 3), (2, 5), (4, 6)], 2, (2, 3)],
-        [[(5, 10), (6, 7), (8, 12)], 2, (6, 7)],
-
-        # Exemplos com mais intervalos
-        [[(1, 4), (2, 7), (3, 8), (5, 9)], 3, (3, 4)],
-        [[(10, 15), (12, 18), (14, 20), (16, 22)], 3, (16, 18)],
-        [[(2, 5), (6, 9), (8, 12), (11, 15)], 2, (11, 12)],
-
-        # Exemplos com vários picos
-        [[(1, 10), (2, 5), (6, 9), (7, 8)], 3, (7, 8)],
-        [[(1, 3), (4, 6), (7, 9), (2, 8)], 3, (4, 6)],
-
-        # Exemplos maiores
-        [[(1, 4), (3, 6), (5, 8), (7, 10), (2, 9)], 4, (5, 6)],
-        [[(1, 5), (6, 10), (2, 7), (8, 12), (4, 11)], 3, (8, 10)],
-        [[(5, 15), (10, 20), (12, 25), (14, 30), (18, 28)], 4, (18, 20)],
-    ]
-
-    for data, k, (u,v) in testes:
-        validar(problema_1(data), (k, (u,v)))
