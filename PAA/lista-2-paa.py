@@ -114,8 +114,16 @@ def problema_2(sabores: List[int]) -> int:
     a sequência de sabores consumidos e retorne o tamanho da maior
     subsequência contínua de valores distintos.
     """
-    pass
+    sabores_hash = {}  # Hash para armazenar os valores que ja repetiram
+    max_seq_possivel = len(sabores)  # Qual é a maior sequência de valores não-repetidos possível
 
+    for sabor in sabores:  # Para cada sabor nos sabores
+        if sabores_hash.get(sabor):
+            max_seq_possivel -= 1
+        else:
+            sabores_hash[sabor] = 1
+    
+    return max_seq_possivel
 
 # ==============================================================================
 # Problema 3 - Hotel de Hilbert
@@ -219,3 +227,12 @@ if __name__ == '__main__':
             print('\033[32mOK\033[m')
         else:
             print('\033[31mERROR\033[m')
+    
+    testes = [
+        [ [1,2,1,4], 3 ],
+        [ [11,22,11,33,22,77,44,22], 5 ],
+        [ [3,3,3,3], 1 ],
+    ]
+
+    for data, k in testes:
+        validar(problema_2(data), k)
