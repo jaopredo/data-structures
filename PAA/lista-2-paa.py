@@ -187,7 +187,6 @@ def problema_5(blocos: List[int]) -> int:
     ou se inicia uma nova torre com ele. O algoritmo deve encontrar o número
     mínimo de torres necessárias com complexidade $O(n \\log n)$.
     """
-    pass
 
 
 # ==============================================================================
@@ -204,7 +203,34 @@ def problema_6(A: List[int], k: int) -> int:
     A complexidade esperada é de $O(n \\cdot \\log(M))$, onde $M$ é a maior
     resposta possível.
     """
-    pass
+    from math import floor
+    M = k * min(A)
+
+    esquerda = 1
+    direita = M
+    
+    while esquerda <= direita:
+        atual = (esquerda + direita)//2
+        anterior = atual-1
+
+        soma_atual = 0
+        soma_anterior = 0
+
+        for a in A:
+            soma_atual += floor(atual/a)
+            soma_anterior += floor(anterior/a)
+        
+        if soma_atual >= k and soma_anterior < k:
+            return atual
+        
+        elif soma_atual >= k and soma_anterior >= k:
+            direita = atual - 1
+        
+        elif soma_anterior < k and soma_atual < k:
+            esquerda = atual + 1
+    
+    return atual
+            
 
 
 # ==============================================================================
@@ -229,10 +255,22 @@ if __name__ == '__main__':
             print('\033[31mERROR\033[m')
     
     testes = [
-        [ [1,2,1,4], 3 ],
-        [ [11,22,11,33,22,77,44,22], 5 ],
-        [ [3,3,3,3], 1 ],
+        # Exemplo 1
+        [[2, 3, 5], 7, 8],
+        
+        # Exemplo 2
+        [[1, 2, 4, 5], 10, 6],
+        
+        # Exemplo 3
+        [[3, 6, 9], 5, 9],
+        
+        # Exemplo 4
+        [[2, 3, 7], 8, 9],
+        
+        # Exemplo 5 (seu exemplo anterior)
+        [[1,2,3,4,5,6,7,8,9,10,11,12], 20, 8]
     ]
 
-    for data, k in testes:
-        validar(problema_2(data), k)
+    for A, k, r in testes:
+        # validar(problema_6(A, k), r)
+        print(problema_6(A,k))
