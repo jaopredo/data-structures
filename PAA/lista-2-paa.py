@@ -145,7 +145,40 @@ def problema_3(estadias: List[Tuple[int, int]]) -> Tuple[int, List[int]]:
 
     O algoritmo deve ter tempo de execução $O(n \\log n)$.
     """
-    pass
+    estadias_com_id_original = [(estadia[0], estadia[1], i) for i, estadia in enumerate(estadias)]
+
+    linha_do_tempo = []
+
+    for estadia in estadias_com_id_original:     # O(n)
+        # Marcador na linha do tempo tem o seguinte formado:
+        # (
+        #   Momento no tempo,
+        #   Índice de onde o tempo daquela pessoa estava armazenado na lista original
+        # )
+        linha_do_tempo.append((estadia[0], estadia[2]))
+        linha_do_tempo.append((estadia[1], estadia[2]))
+
+    # Orgnanizo a minha linha do tempo
+    linha_do_tempo = sorted(linha_do_tempo, key=lambda marcador: (marcador[0], -marcador[1]))     # O(nlog(n))
+
+    r = [0 for _ in range(len(estadias))]  # O(n)
+
+    max_quartos = -float('inf')
+    hospedes = {}
+    quartos_necessarios = 0
+
+    for marcador in linha_do_tempo:
+        if not hospedes.get(marcador[1]):  # Se alguém novo entrou
+            quartos_necessarios += 1  # Aumento a quantidade necessária de quartos
+            hospedes[marcador[1]] = 1
+        else:
+            quartos_necessarios -= 1
+        
+        if quartos_necessarios >= max_quartos:
+            max_quartos = quartos_necessarios
+
+    return max_quartos, r
+    
 
 
 # ==============================================================================
@@ -167,7 +200,21 @@ def problema_4(A: List[int], k: int) -> Tuple[int, int, int, int]:
 
     O algoritmo deve ter uma complexidade de tempo de $O(n^2 \\log n)$.
     """
-    pass
+    # A lógica é calcular as combinações k - A_i - A_j para todo i < j
+    # então eu armazeno isso dentro de uma tupla ou lista, enfim
+    # então eu também faço as SOMAS de A_i + A_j para todo i < j
+    # de forma que depois eu apenas preciso ordenar ou as somas ou as
+    # combinações e aplicar uma busca binária de uma na outra
+
+    # Eu também posso usar hash pra armazenar as diferenças k - A_i - A_j
+    # para todo i < j e fazer um outro loop n^2 que passa por todas as combinações
+    # A_k + A_l para todo k < l e checar se o negativo da soma delas está presente
+    # no hash (Se sim, então quer dizer que existem k - A_i - A_j - A_k - A_l = 0)
+    # Ou seja, A_i+A_j+A_k+A_l = k
+
+    # Eu poderia também tentar fazer apenas as somas A_i + A_j
+    # e dentro de um loop n^2 eu aplico uma busca binária em A_k + A_l até
+    # encontrar algum que seja igual a k
 
 
 # ==============================================================================
@@ -255,22 +302,24 @@ if __name__ == '__main__':
             print('\033[31mERROR\033[m')
     
     testes = [
-        # Exemplo 1
-        [[2, 3, 5], 7, 8],
-        
-        # Exemplo 2
-        [[1, 2, 4, 5], 10, 6],
-        
-        # Exemplo 3
-        [[3, 6, 9], 5, 9],
-        
-        # Exemplo 4
-        [[2, 3, 7], 8, 9],
-        
-        # Exemplo 5 (seu exemplo anterior)
-        [[1,2,3,4,5,6,7,8,9,10,11,12], 20, 8]
+        # Exemplos da imagem (1–4: corretos)
+        ([(1, 2), (3, 3), (4, 5)], 1, [1, 1, 1]),
+        ([(2, 4), (1, 2), (4, 4)], 2, [1, 2, 2]),
+        ([(1, 2), (2, 4), (4, 4)], 2, [1, 2, 1]),
+        ([(1, 4), (1, 2), (2, 4)], 3, [1, 2, 3]),
+
+        # Novos exemplos para testar
+        ([(1, 3), (2, 5), (4, 6)], 2, [1, 2, 1]),
+        ([(1, 10), (2, 3), (4, 5), (6, 7)], 2, [1, 2, 2, 2]),
+        ([(1, 2), (2, 3), (3, 4), (4, 5)], 2, [1, 2, 1, 2]),   # corrigido (antes k=1, r inválido)
+        ([(1, 4), (1, 3), (2, 5), (4, 6)], 3, [1, 2, 3, 2]),   # corrigido (antes r tinha conflito com b=a)
+        ([(5, 10), (1, 2), (2, 6), (7, 8)], 2, [1, 1, 2, 2]),  # corrigido (antes r tinha conflito b=a)
+        ([(1, 5), (2, 6), (3, 7), (4, 8)], 4, [1, 2, 3, 4])
     ]
 
     for A, k, r in testes:
         # validar(problema_6(A, k), r)
-        print(problema_6(A,k))
+        problema_3(A)
+        print()
+
+    # problema_3(testes[-3][0])
