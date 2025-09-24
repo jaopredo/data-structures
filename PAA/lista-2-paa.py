@@ -227,6 +227,46 @@ def problema_4(A: List[int], k: int) -> Tuple[int, int, int, int]:
     # Eu poderia também tentar fazer apenas as somas A_i + A_j
     # e dentro de um loop n^2 eu aplico uma busca binária em A_k + A_l até
     # encontrar algum que seja igual a k
+    somas = []
+    n = len(A)
+
+    for i in range(n):
+        for j in range(i,n):
+            somas.append((A[i]+A[j], i, j))
+
+    somas = sorted(somas)
+
+    indices = None
+
+    for i in range(n):
+        for j in range(i,n):
+            esquerda = 1
+            direita = n
+            
+            while esquerda <= direita:
+                atual = (esquerda + direita)//2
+
+                soma = somas[atual]
+                
+                if soma[0] + A[i] + A[j] > k:
+                    direita = atual - 1
+                elif soma[0] + A[i] + A[j] < k:
+                    esquerda = atual + 1
+                else:
+                    indices = (A[i]+1, A[j]+1, soma[1]+1, soma[2]+1)
+                    break
+            
+            if indices is not None:
+                break
+        if indices is not None:
+            break
+    
+    if indices is None:
+        return (-1,-1,-1,-1)
+
+    indices = sorted(indices)
+
+    return indices
 
 
 # ==============================================================================
