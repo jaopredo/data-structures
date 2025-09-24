@@ -115,15 +115,26 @@ def problema_2(sabores: List[int]) -> int:
     subsequência contínua de valores distintos.
     """
     sabores_hash = {}  # Hash para armazenar os valores que ja repetiram
-    max_seq_possivel = len(sabores)  # Qual é a maior sequência de valores não-repetidos possível
+    seqs = []
+    seq = 0
 
-    for sabor in sabores:  # Para cada sabor nos sabores
-        if sabores_hash.get(sabor):
-            max_seq_possivel -= 1
-        else:
-            sabores_hash[sabor] = 1
-    
-    return max_seq_possivel
+    for i, sabor in enumerate(sabores):  # Para cada sabor nos sabores
+        seq+=1
+        
+        if sabores_hash.get(sabor) is not None:
+            # print(sabor)
+            indice_do_repetido = sabores_hash.get(sabor)
+            if i == indice_do_repetido:
+                seq = 1
+            seqs.append(seq)
+            seq = i - indice_do_repetido
+        
+        sabores_hash[sabor] = i
+    seqs.append(seq)
+
+    max_seq = max(seqs)
+
+    print(seqs)
 
 # ==============================================================================
 # Problema 3 - Hotel de Hilbert
@@ -317,9 +328,18 @@ if __name__ == '__main__':
         ([(1, 5), (2, 6), (3, 7), (4, 8)], 4, [1, 2, 3, 4])
     ]
 
-    for A, k, r in testes:
-        # validar(problema_6(A, k), r)
-        problema_3(A)
-        print()
+    a = [
+        [1,2,1,4],
+        [11,22,11,33,22,77,44,22],
+        [3,3,3,3,3,3],
+        [1,1,3,4,4,5,7,2,6]
+    ]
+
+    problema_2(a[1])
+
+    # for A, k, r in testes:
+    #     # validar(problema_6(A, k), r)
+    #     problema_3(A)
+    #     print()
 
     # problema_3(testes[-3][0])
