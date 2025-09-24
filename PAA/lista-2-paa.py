@@ -126,15 +126,16 @@ def problema_2(sabores: List[int]) -> int:
             indice_do_repetido = sabores_hash.get(sabor)
             if i == indice_do_repetido:
                 seq = 1
-            seqs.append(seq)
+            seqs.append(seq-1)
             seq = i - indice_do_repetido
         
         sabores_hash[sabor] = i
+    
     seqs.append(seq)
 
     max_seq = max(seqs)
-
-    print(seqs)
+    
+    return max_seq
 
 # ==============================================================================
 # Problema 3 - Hotel de Hilbert
@@ -312,34 +313,55 @@ if __name__ == '__main__':
         else:
             print('\033[31mERROR\033[m')
     
+    # testes = [
+    #     # Exemplos da imagem (1–4: corretos)
+    #     ([(1, 2), (3, 3), (4, 5)], 1, [1, 1, 1]),
+    #     ([(2, 4), (1, 2), (4, 4)], 2, [1, 2, 2]),
+    #     ([(1, 2), (2, 4), (4, 4)], 2, [1, 2, 1]),
+    #     ([(1, 4), (1, 2), (2, 4)], 3, [1, 2, 3]),
+
+    #     # Novos exemplos para testar
+    #     ([(1, 3), (2, 5), (4, 6)], 2, [1, 2, 1]),
+    #     ([(1, 10), (2, 3), (4, 5), (6, 7)], 2, [1, 2, 2, 2]),
+    #     ([(1, 2), (2, 3), (3, 4), (4, 5)], 2, [1, 2, 1, 2]),   # corrigido (antes k=1, r inválido)
+    #     ([(1, 4), (1, 3), (2, 5), (4, 6)], 3, [1, 2, 3, 2]),   # corrigido (antes r tinha conflito com b=a)
+    #     ([(5, 10), (1, 2), (2, 6), (7, 8)], 2, [1, 1, 2, 2]),  # corrigido (antes r tinha conflito b=a)
+    #     ([(1, 5), (2, 6), (3, 7), (4, 8)], 4, [1, 2, 3, 4])
+    # ]
+
     testes = [
-        # Exemplos da imagem (1–4: corretos)
-        ([(1, 2), (3, 3), (4, 5)], 1, [1, 1, 1]),
-        ([(2, 4), (1, 2), (4, 4)], 2, [1, 2, 2]),
-        ([(1, 2), (2, 4), (4, 4)], 2, [1, 2, 1]),
-        ([(1, 4), (1, 2), (2, 4)], 3, [1, 2, 3]),
+        # Caso simples, existe exatamente uma solução
+        ([1, 2, 3, 4, 5], 10, (0, 1, 2, 3)),  # 1+2+3+4=10
 
-        # Novos exemplos para testar
-        ([(1, 3), (2, 5), (4, 6)], 2, [1, 2, 1]),
-        ([(1, 10), (2, 3), (4, 5), (6, 7)], 2, [1, 2, 2, 2]),
-        ([(1, 2), (2, 3), (3, 4), (4, 5)], 2, [1, 2, 1, 2]),   # corrigido (antes k=1, r inválido)
-        ([(1, 4), (1, 3), (2, 5), (4, 6)], 3, [1, 2, 3, 2]),   # corrigido (antes r tinha conflito com b=a)
-        ([(5, 10), (1, 2), (2, 6), (7, 8)], 2, [1, 1, 2, 2]),  # corrigido (antes r tinha conflito b=a)
-        ([(1, 5), (2, 6), (3, 7), (4, 8)], 4, [1, 2, 3, 4])
+        # Vários possíveis, qualquer válido serve (escolhi um deles)
+        ([2, 2, 2, 2, 2], 8, (0, 1, 2, 3)),  # 2+2+2+2=8
+
+        # Não existe solução
+        ([10, 20, 30], 60, (-1, -1, -1, -1)),
+
+        # Conjunto maior, soma exata
+        ([5, 1, 0, -1, 7, 10], 16, (0, 1, 2, 5)),  # 5+1+0+10=16
+
+        # Elementos negativos, solução válida
+        ([-5, -2, -1, 3, 7, 8], 3, (0, 1, 3, 4)),  # -5 + -2 + 3 + 7 = 3
+
+        # Caso em que soma envolve repetição de valores iguais
+        ([4, 4, 4, 4, 9], 21, (0, 1, 2, 4)),  # 4+4+4+9=21
+
+        # Nenhuma combinação dá o alvo
+        ([1, 1, 1, 1, 1], 100, (-1, -1, -1, -1)),
+
+        # Teste maior, com números variados
+        ([3, 7, 11, 2, 9, 4], 21, (0, 1, 3, 4)),  # 3+7+2+9=21
+
+        # Teste onde a solução usa os últimos índices
+        ([6, 1, 2, 3, 4, 5], 14, (2, 3, 4, 5)),  # 2+3+4+5=14
+
+        # Teste com zeros
+        ([0, 0, 0, 0, 10], 0, (0, 1, 2, 3)),  # 0+0+0+0=0
     ]
-
-    a = [
-        [1,2,1,4],
-        [11,22,11,33,22,77,44,22],
-        [3,3,3,3,3,3],
-        [1,1,3,4,4,5,7,2,6]
-    ]
-
-    problema_2(a[1])
-
-    # for A, k, r in testes:
-    #     # validar(problema_6(A, k), r)
-    #     problema_3(A)
-    #     print()
-
-    # problema_3(testes[-3][0])
+    
+    for data, k, idx in testes:
+        print(problema_4(data, k))
+        print(idx)
+        print()
