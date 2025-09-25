@@ -377,7 +377,95 @@ def problema_7(A: List[int]) -> int:
     $$ \\sum_{i=1}^{n} |A_i-k| $$
     A complexidade de tempo deve ser $O(n)$.
     """
-    pass
+    def swap(v,i,j):
+        temp = v[i]
+        v[i]=v[j]
+        v[j]=temp
+    
+    def partition(v, p, r, pivot=None):
+        # se não foi passado um pivô, usa o último elemento
+        if pivot is None:
+            pivot = v[r]
+        
+        # acha a posição real do pivot dentro de v[p:r+1]
+        for i in range(p, r+1):
+            if v[i] == pivot:
+                swap(v, i, r)
+                break
+        
+        j = p
+        for i in range(p, r):
+            if v[i] <= pivot:
+                swap(v, i, j)
+                j += 1
+        swap(v, j, r)
+        return j
+    
+    def medianOf(v, n):
+        g = sorted(v)
+        return g[n//2]
+    
+    def selectMOM(arr, left, right, k):
+        n = right - left + 1
+
+        if k <= 0 or k > n:
+            return -1
+        
+        numGroups = (n+4)//5
+        medians = []
+
+        groupIndex = 0
+        pos = left
+
+        while pos <= right:
+            groupSize = None
+
+            if pos+4 <= right:
+                groupSize = 5
+            else:
+                groupSize = right - pos + 1
+            
+            group = []
+            for i in range(groupSize):
+                group.append(arr[pos+i])
+            
+            med = medianOf(group, groupSize)
+            medians.append(med)
+            groupIndex+=1
+            pos += 5
+        
+        pivotValue = None
+        if numGroups == 1:
+            pivotValue = medians[0]
+        else:
+            middleGroup = (numGroups+1) // 2
+            pivotValue = selectMOM(medians, 0, numGroups - 1, middleGroup)
+        
+
+        pivotIndex = partition(arr, left, right, pivotValue)
+        order = pivotIndex - left + 1
+
+        if order == k:
+            return arr[pivotIndex]
+        elif order > k:
+            return selectMOM(arr, left, pivotIndex - 1, k)
+        else:
+            return selectMOM(arr, pivotIndex+1, right, k - order)
+
+    n = len(A)
+    if n % 2 == 1:
+        return selectMOM(A, 0, n-1, (n+1)//2)
+    else:
+        left = selectMOM(A, 0, n-1, n//2)
+        right = selectMOM(A, 0, n-1, n//2 + 1)
+
+        median = (left + right) / 2
+
+        difs = [(abs(left - median), left), (abs(right - median), right)]
+        result = min(difs, key=lambda d: d[0])[1]
+
+        return result
+
 
 
 if __name__ == '__main__':
@@ -387,59 +475,21 @@ if __name__ == '__main__':
         else:
             print('\033[31mERROR\033[m')
     
-    # testes = [
-    #     # Exemplos da imagem (1–4: corretos)
-    #     ([(1, 2), (3, 3), (4, 5)], 1, [1, 1, 1]),
-    #     ([(2, 4), (1, 2), (4, 4)], 2, [1, 2, 2]),
-    #     ([(1, 2), (2, 4), (4, 4)], 2, [1, 2, 1]),
-    #     ([(1, 4), (1, 2), (2, 4)], 3, [1, 2, 3]),
-
-    #     # Novos exemplos para testar
-    #     ([(1, 3), (2, 5), (4, 6)], 2, [1, 2, 1]),
-    #     ([(1, 10), (2, 3), (4, 5), (6, 7)], 2, [1, 2, 2, 2]),
-    #     ([(1, 2), (2, 3), (3, 4), (4, 5)], 2, [1, 2, 1, 2]),   # corrigido (antes k=1, r inválido)
-    #     ([(1, 4), (1, 3), (2, 5), (4, 6)], 3, [1, 2, 3, 2]),   # corrigido (antes r tinha conflito com b=a)
-    #     ([(5, 10), (1, 2), (2, 6), (7, 8)], 2, [1, 1, 2, 2]),  # corrigido (antes r tinha conflito b=a)
-    #     ([(1, 5), (2, 6), (3, 7), (4, 8)], 4, [1, 2, 3, 4])
-    # ]
-
     testes = [
-        ([1,2,1,4],3),
-        ([11,22,11,33,22,77,44,22],4),
-        ([3,3,3,3,3,3],1),
+        # Exemplos da imagem (1–4: corretos)
+        ([(1, 2), (3, 3), (4, 5)], 1, [1, 1, 1]),
+        ([(2, 4), (1, 2), (4, 4)], 2, [1, 2, 2]),
+        ([(1, 2), (2, 4), (4, 4)], 2, [1, 2, 1]),
+        ([(1, 4), (1, 2), (2, 4)], 3, [1, 2, 3]),
 
-        # Todos os blocos iguais → tudo em uma única torre
-        ([5, 5, 5, 5], 1),
-
-        # Sequência estritamente decrescente → tudo em uma única torre
-        ([10, 9, 8, 7], 1),
-
-        # Sequência estritamente crescente → cada bloco precisa de uma torre nova
-        ([1, 2, 3, 4], 4),
-
-        # Alternância que força divisão em mais torres
-        ([3, 8, 2, 7, 1, 6], 2),
-
-        # Ordem embaralhada mas possível empilhar em poucas torres
-        ([4, 3, 6, 2, 5, 1], 2),
-
-        # Blocos pequenos vindo depois forçam novas torres
-        ([7, 1, 7, 1, 7, 1], 2),
-
-        # Sequência mista, mas dá para encaixar bem
-        ([6, 3, 5, 2, 4, 1], 2),
-
-        # Grande bloco inicial facilita empilhar todos em uma torre
-        ([100, 90, 80, 70, 60], 1),
-
-        # Pequeno no início estraga a empilhagem, forçando novas torres
-        ([1, 100, 2, 99, 3, 98], 4),
-
-        # Caso mínimo
-        ([42], 1),
+        # Novos exemplos para testar
+        ([(1, 3), (2, 5), (4, 6)], 2, [1, 2, 1]),
+        ([(1, 10), (2, 3), (4, 5), (6, 7)], 2, [1, 2, 2, 2]),
+        ([(1, 2), (2, 3), (3, 4), (4, 5)], 2, [1, 2, 1, 2]),   # corrigido (antes k=1, r inválido)
+        ([(1, 4), (1, 3), (2, 5), (4, 6)], 3, [1, 2, 3, 2]),   # corrigido (antes r tinha conflito com b=a)
+        ([(5, 10), (1, 2), (2, 6), (7, 8)], 2, [1, 1, 2, 2]),  # corrigido (antes r tinha conflito b=a)
+        ([(1, 5), (2, 6), (3, 7), (4, 8)], 4, [1, 2, 3, 4])
     ]
     
     for data, k in testes:
-        print(problema_5(data))
-        print(k)
-        print()
+        print(problema_7(data))
