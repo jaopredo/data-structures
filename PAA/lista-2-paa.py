@@ -240,8 +240,8 @@ def problema_4(A: List[int], k: int) -> Tuple[int, int, int, int]:
 
     for i in range(n):
         for j in range(i,n):
-            esquerda = 1
-            direita = n
+            esquerda = 0
+            direita = n-1
             
             while esquerda <= direita:
                 atual = (esquerda + direita)//2
@@ -252,8 +252,8 @@ def problema_4(A: List[int], k: int) -> Tuple[int, int, int, int]:
                     direita = atual - 1
                 elif soma[0] + A[i] + A[j] < k:
                     esquerda = atual + 1
-                else:
-                    indices = (A[i]+1, A[j]+1, soma[1]+1, soma[2]+1)
+                elif len({i, j, soma[1], soma[2]}) == 4:
+                    indices = (i+1, j+1, soma[1]+1, soma[2]+1)
                     break
             
             if indices is not None:
@@ -286,6 +286,40 @@ def problema_5(blocos: List[int]) -> int:
     ou se inicia uma nova torre com ele. O algoritmo deve encontrar o número
     mínimo de torres necessárias com complexidade $O(n \\log n)$.
     """
+    # Aqui a lógica é montar as torres aos poucos. Eu vou fazer da seguinte forma:
+    # eu vou analisar se o meu bloco atual é menor ou igual do que cada um dos
+    # blocos no TOPO de cada torre, se ele se encaixar na condição, então eu adiciono
+    # o número na lista respectiva da torre (Empilho o meu bloco). Só que se ele é maior
+    # eu vou passar pro próximo até encontrar um menor igual. Só que isso daria O(n^2)
+    # porém, por construção, se eu tenho duas torres t_i e t_j (i < j) e  os blocos no
+    # topo delas são a_k e a_l respectivamente, se a_k = a_l então eu deveria ter empilhado
+    # a_l em a_k antes. Ou seja, eu tenho que os blocos no topo vão seguir uma ordem
+    # CRESCENTE, perfeito para em vez de percorrer um por um, eu aplicar uma
+    # busca binária
+    torres = [[blocos[0]]]
+    qtd_torres = 1
+    n = len(blocos)
+
+    for i in range(n):
+        if i == 0:
+            continue
+        
+        atual = None
+        esquerda = 0
+        direita = qtd_torres-1
+        while esquerda <= direita:
+            atual = (esquerda + direita)//2
+            
+            if blocos[i] > torres[atual][-1]:
+                esquerda = atual + 1
+            elif blocos[i] <= torres[atual][-1]:
+                torres[atual].append(blocos[i])
+                break
+        else:
+            torres.append([blocos[i]])
+            qtd_torres += 1
+    
+    return qtd_torres
 
 
 # ==============================================================================
@@ -305,7 +339,7 @@ def problema_6(A: List[int], k: int) -> int:
     from math import floor
     M = k * min(A)
 
-    esquerda = 1
+    esquerda = 0
     direita = M
     
     while esquerda <= direita:
@@ -370,38 +404,42 @@ if __name__ == '__main__':
     # ]
 
     testes = [
-        # Caso simples, existe exatamente uma solução
-        ([1, 2, 3, 4, 5], 10, (0, 1, 2, 3)),  # 1+2+3+4=10
+        ([1,2,1,4],3),
+        ([11,22,11,33,22,77,44,22],4),
+        ([3,3,3,3,3,3],1),
 
-        # Vários possíveis, qualquer válido serve (escolhi um deles)
-        ([2, 2, 2, 2, 2], 8, (0, 1, 2, 3)),  # 2+2+2+2=8
+        # Todos os blocos iguais → tudo em uma única torre
+        ([5, 5, 5, 5], 1),
 
-        # Não existe solução
-        ([10, 20, 30], 60, (-1, -1, -1, -1)),
+        # Sequência estritamente decrescente → tudo em uma única torre
+        ([10, 9, 8, 7], 1),
 
-        # Conjunto maior, soma exata
-        ([5, 1, 0, -1, 7, 10], 16, (0, 1, 2, 5)),  # 5+1+0+10=16
+        # Sequência estritamente crescente → cada bloco precisa de uma torre nova
+        ([1, 2, 3, 4], 4),
 
-        # Elementos negativos, solução válida
-        ([-5, -2, -1, 3, 7, 8], 3, (0, 1, 3, 4)),  # -5 + -2 + 3 + 7 = 3
+        # Alternância que força divisão em mais torres
+        ([3, 8, 2, 7, 1, 6], 2),
 
-        # Caso em que soma envolve repetição de valores iguais
-        ([4, 4, 4, 4, 9], 21, (0, 1, 2, 4)),  # 4+4+4+9=21
+        # Ordem embaralhada mas possível empilhar em poucas torres
+        ([4, 3, 6, 2, 5, 1], 2),
 
-        # Nenhuma combinação dá o alvo
-        ([1, 1, 1, 1, 1], 100, (-1, -1, -1, -1)),
+        # Blocos pequenos vindo depois forçam novas torres
+        ([7, 1, 7, 1, 7, 1], 2),
 
-        # Teste maior, com números variados
-        ([3, 7, 11, 2, 9, 4], 21, (0, 1, 3, 4)),  # 3+7+2+9=21
+        # Sequência mista, mas dá para encaixar bem
+        ([6, 3, 5, 2, 4, 1], 2),
 
-        # Teste onde a solução usa os últimos índices
-        ([6, 1, 2, 3, 4, 5], 14, (2, 3, 4, 5)),  # 2+3+4+5=14
+        # Grande bloco inicial facilita empilhar todos em uma torre
+        ([100, 90, 80, 70, 60], 1),
 
-        # Teste com zeros
-        ([0, 0, 0, 0, 10], 0, (0, 1, 2, 3)),  # 0+0+0+0=0
+        # Pequeno no início estraga a empilhagem, forçando novas torres
+        ([1, 100, 2, 99, 3, 98], 4),
+
+        # Caso mínimo
+        ([42], 1),
     ]
     
-    for data, k, idx in testes:
-        print(problema_4(data, k))
-        print(idx)
+    for data, k in testes:
+        print(problema_5(data))
+        print(k)
         print()
