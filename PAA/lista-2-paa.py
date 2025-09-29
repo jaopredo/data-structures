@@ -157,6 +157,47 @@ def problema_3(estadias: List[Tuple[int, int]]) -> Tuple[int, List[int]]:
 
     O algoritmo deve ter tempo de execução $O(n \\log n)$.
     """
+    def heapify(arr, i):
+        n = len(arr)
+
+        menor = i
+
+        left = 2 * i + 1
+        right = 2 * i + 2
+
+        if left < n and arr[left][0] < arr[menor][1]:
+            menor = left
+        if right < n and arr[right][0] < arr[menor][1]:
+            menor = right
+            
+        if menor != i:
+            arr[i], arr[menor] = arr[menor], arr[i]  # Swap            
+            heapify(arr, n, menor)
+
+    def heap_push(heap, elemento):
+        n = len(heap)
+
+        heap.append(elemento)
+
+        i = n - 1
+        while i > 0:
+            pai = (i - 1) // 2
+            if heap[i][0] < heap[pai][0]:
+                heap[i], heap[pai] = heap[pai], heap[i]  # Swap
+                i = pai
+            else:
+                break
+
+    def heap_pop(heap):
+        if not heap:
+            return None
+        menor = heap[0]
+        ultimo = heap.pop()
+        if heap:
+            heap[0] = ultimo
+            heapify(heap, 0)
+        return menor
+    
     estadias_com_id_original = [(estadia[0], estadia[1], i) for i, estadia in enumerate(estadias)]
 
     linha_do_tempo = []
@@ -170,26 +211,27 @@ def problema_3(estadias: List[Tuple[int, int]]) -> Tuple[int, List[int]]:
         linha_do_tempo.append((estadia[0], estadia[2]))
         linha_do_tempo.append((estadia[1], estadia[2]))
 
-    # Orgnanizo a minha linha do tempo
-    linha_do_tempo = sorted(linha_do_tempo, key=lambda marcador: (marcador[0], -marcador[1]))     # O(nlog(n))
+    n = len(estadias)
+    hospedes = []
+    for i in range(n):
+        hospedes.append((estadias[i][0], estadias[i][1], i))
+    hospedes.sort(key=lambda x: (x[0], x[2]))
 
-    r = [0 for _ in range(len(estadias))]  # O(n)
+    heap = []
+    resultado = [0] * n
+    min_quartos_utilizados = 1
 
-    max_quartos = -float('inf')
-    hospedes = {}
-    quartos_necessarios = 0
-
-    for marcador in linha_do_tempo:
-        if not hospedes.get(marcador[1]):  # Se alguém novo entrou
-            quartos_necessarios += 1  # Aumento a quantidade necessária de quartos
-            hospedes[marcador[1]] = 1
+    for chegada, saida, i in hospedes:
+        if heap and heap[0][0] < chegada:
+            _, quarto = heap_pop(heap)
         else:
-            quartos_necessarios -= 1
-        
-        if quartos_necessarios >= max_quartos:
-            max_quartos = quartos_necessarios
+            quarto = min_quartos_utilizados
+            min_quartos_utilizados += 1  
 
-    return max_quartos, r
+        resultado[i] = quarto
+        heap_push(heap, (saida, quarto))
+
+    return min_quartos_utilizados - 1, resultado
     
 
 
@@ -234,14 +276,14 @@ def problema_4(A: List[int], k: int) -> Tuple[int, int, int, int]:
         for j in range(i,n):
             somas.append((A[i]+A[j], i, j))
 
-    somas = sorted(somas)
+    somas = sorted(somas, key=lambda soma:(soma[0], soma[1], soma[2]))
 
     indices = None
 
     for i in range(n):
         for j in range(i,n):
             esquerda = 0
-            direita = n-1
+            direita = len(somas)-1
             
             while esquerda <= direita:
                 atual = (esquerda + direita)//2
@@ -440,7 +482,6 @@ def problema_7(A: List[int]) -> int:
         else:
             middleGroup = (numGroups+1) // 2
             pivotValue = selectMOM(medians, 0, numGroups - 1, middleGroup)
-        
 
         pivotIndex = partition(arr, left, right, pivotValue)
         order = pivotIndex - left + 1
@@ -465,31 +506,3 @@ def problema_7(A: List[int]) -> int:
         result = min(difs, key=lambda d: d[0])[1]
 
         return result
-
-
-
-if __name__ == '__main__':
-    def validar(e1, e2):
-        if e1==e2:
-            print('\033[32mOK\033[m')
-        else:
-            print('\033[31mERROR\033[m')
-    
-    testes = [
-        # Exemplos da imagem (1–4: corretos)
-        ([(1, 2), (3, 3), (4, 5)], 1, [1, 1, 1]),
-        ([(2, 4), (1, 2), (4, 4)], 2, [1, 2, 2]),
-        ([(1, 2), (2, 4), (4, 4)], 2, [1, 2, 1]),
-        ([(1, 4), (1, 2), (2, 4)], 3, [1, 2, 3]),
-
-        # Novos exemplos para testar
-        ([(1, 3), (2, 5), (4, 6)], 2, [1, 2, 1]),
-        ([(1, 10), (2, 3), (4, 5), (6, 7)], 2, [1, 2, 2, 2]),
-        ([(1, 2), (2, 3), (3, 4), (4, 5)], 2, [1, 2, 1, 2]),   # corrigido (antes k=1, r inválido)
-        ([(1, 4), (1, 3), (2, 5), (4, 6)], 3, [1, 2, 3, 2]),   # corrigido (antes r tinha conflito com b=a)
-        ([(5, 10), (1, 2), (2, 6), (7, 8)], 2, [1, 1, 2, 2]),  # corrigido (antes r tinha conflito b=a)
-        ([(1, 5), (2, 6), (3, 7), (4, 8)], 4, [1, 2, 3, 4])
-    ]
-    
-    for data, k in testes:
-        print(problema_7(data))
